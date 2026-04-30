@@ -2,8 +2,8 @@
   "mode": "node-test-events",
   "command": "node:test run tests/integration",
   "suiteName": "integration-tests",
-  "startedAt": "2026-04-30T12:02:27.262Z",
-  "finishedAt": "2026-04-30T12:02:28.768Z",
+  "startedAt": "2026-04-30T12:27:52.505Z",
+  "finishedAt": "2026-04-30T12:27:53.852Z",
   "total": 2,
   "passed": 2,
   "failed": 0,
@@ -13,12 +13,12 @@
     {
       "name": "integration: checkout/payments scenario pack enforces risk-based invariants",
       "status": "passed",
-      "durationMs": 23.82475
+      "durationMs": 18.563458
     },
     {
       "name": "integration: validates auth, versioning, pagination, and partial failure recovery",
       "status": "passed",
-      "durationMs": 1029.451208
+      "durationMs": 1142.315416
     }
   ],
   "stdout": "",

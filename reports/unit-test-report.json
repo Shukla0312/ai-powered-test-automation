@@ -2,10 +2,10 @@
   "mode": "node-test-events",
   "command": "node:test run tests/unit",
   "suiteName": "unit-tests",
-  "startedAt": "2026-04-30T12:02:26.545Z",
-  "finishedAt": "2026-04-30T12:02:26.872Z",
-  "total": 13,
-  "passed": 13,
+  "startedAt": "2026-04-30T12:27:45.746Z",
+  "finishedAt": "2026-04-30T12:27:52.371Z",
+  "total": 20,
+  "passed": 20,
   "failed": 0,
   "success": true,
   "exitCode": 0,
@@ -13,67 +13,102 @@
     {
       "name": "interpretAIResponse returns PASS for valid structured AI output",
       "status": "passed",
-      "durationMs": 0.986708
+      "durationMs": 0.89075
     },
     {
       "name": "interpretAIResponse returns FAIL when score is below threshold",
       "status": "passed",
-      "durationMs": 0.076333
+      "durationMs": 0.089834
     },
     {
       "name": "createSchemaDecision rejects missing required fields",
       "status": "passed",
-      "durationMs": 0.387833
+      "durationMs": 0.709
     },
     {
       "name": "createMockDecision supports nested required field paths",
       "status": "passed",
-      "durationMs": 0.09875
+      "durationMs": 0.234625
+    },
+    {
+      "name": "parseAIResponse parses valid JSON strings",
+      "status": "passed",
+      "durationMs": 0.713834
+    },
+    {
+      "name": "parseAIResponse returns fallback for malformed JSON",
+      "status": "passed",
+      "durationMs": 0.127375
+    },
+    {
+      "name": "SemanticValidator fails safely on malformed AI response",
+      "status": "passed",
+      "durationMs": 4.422333
+    },
+    {
+      "name": "SemanticValidator rejects missing required fields before AI call",
+      "status": "passed",
+      "durationMs": 0.468667
     },
     {
       "name": "APIService retries retryable errors and succeeds",
       "status": "passed",
-      "durationMs": 11.6655
+      "durationMs": 2.491333
     },
     {
       "name": "APIService does not retry non-retryable 4xx errors",
       "status": "passed",
-      "durationMs": 1.720375
+      "durationMs": 0.387042
     },
     {
       "name": "APIService logs expected negative responses as expected failures",
       "status": "passed",
-      "durationMs": 1.796417
+      "durationMs": 0.190875
     },
     {
       "name": "APIService throws after retry exhaustion on retryable errors",
       "status": "passed",
-      "durationMs": 5.617292
+      "durationMs": 0.391583
     },
     {
       "name": "APIService retries timeout errors and surfaces timeout metadata",
       "status": "passed",
-      "durationMs": 1.67025
+      "durationMs": 0.290459
+    },
+    {
+      "name": "APIService retries transient failure and succeeds",
+      "status": "passed",
+      "durationMs": 3050.769083
+    },
+    {
+      "name": "APIService handles auth + pagination and detects partial fields",
+      "status": "passed",
+      "durationMs": 18.02275
+    },
+    {
+      "name": "APIService surfaces API error after retries exhausted",
+      "status": "passed",
+      "durationMs": 3061.202834
     },
     {
       "name": "parseJSONFromText parses plain JSON payload",
       "status": "passed",
-      "durationMs": 2.721417
+      "durationMs": 0.992792
     },
     {
       "name": "parseJSONFromText parses markdown fenced JSON",
       "status": "passed",
-      "durationMs": 0.955709
+      "durationMs": 0.452375
     },
     {
       "name": "parseJSONFromText extracts JSON wrapped with explanation text",
       "status": "passed",
-      "durationMs": 0.269542
+      "durationMs": 0.147667
     },
     {
       "name": "parseJSONFromText throws on invalid payload without JSON object",
       "status": "passed",
-      "durationMs": 0.406875
+      "durationMs": 0.239583
     }
   ],
   "stdout": "",
