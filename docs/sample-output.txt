@@ -1,0 +1,29 @@
+> npm run test:mock
+
+[TEST STEP] Running: Validate Post Response Structure
+[AI VALIDATION] PASS - Mock AI confirmed response satisfies the validation intent
+PASS - Validation Score: 90/100
+
+[TEST STEP] Running: Validate User Response with Schema
+[AI VALIDATION] PASS - Mock AI confirmed response satisfies the validation intent
+PASS - Validation Score: 90/100
+
+[TEST STEP] Running: API Service Error Handling
+PASS - Error handled correctly: 404
+
+[TEST STEP] Running: Batch Validation of Multiple Responses
+[AI VALIDATION] PASS - Mock AI confirmed response satisfies the validation intent
+[AI VALIDATION] PASS - Mock AI confirmed response satisfies the validation intent
+PASS - All batch validations passed
+
+[TEST STEP] Running: Real-World User Onboarding Validation
+[AI VALIDATION] PASS - Mock AI confirmed response satisfies the validation intent
+[AI VALIDATION] FAIL - Mock AI detected missing response data or required fields
+[AI VALIDATION] PASS - Missing email edge case rejected
+PASS - CRM onboarding score: 90/100
+
+TEST REPORT
+Total Tests: 5
+Passed: 5
+Failed: 0
+All tests passed!

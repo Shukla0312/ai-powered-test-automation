@@ -7,12 +7,15 @@
  * Provider is configurable via LLM_PROVIDER environment variable
  */
 
+import { createHash } from 'crypto';
 import { getLLMClient } from './llmFactory.js';
 import config from '../config/index.js';
 import {
   createMockDecision,
+  createSchemaDecision,
   interpretAIResponse,
 } from './aiDecisionEngine.js';
+import { logAIValidation } from './logger.js';
 import {
   getSemanticValidationPrompt,
   getResponseComparisonPrompt,
@@ -59,13 +62,42 @@ export class SemanticValidator {
    * @throws {AIError} If validation fails
    */
   async validateResponse(response, expectedBehavior, options = {}) {
-    const { schema = null, minScore = this.minValidationScore, testName = 'Unknown' } = options;
+    const {
+      schema = null,
+      minScore = this.minValidationScore,
+      testName = 'Unknown',
+      suppressFailureLog = false,
+    } = options;
 
     try {
       // Check cache first (if responses are deterministic)
-      const cacheKey = this._getCacheKey(response, expectedBehavior);
+      const cacheKey = this._getCacheKey(response, expectedBehavior, {
+        schema,
+        minScore,
+      });
       if (this.cache.has(cacheKey)) {
         return this.cache.get(cacheKey);
+      }
+
+      if (schema?.required?.length) {
+        const schemaDecision = createSchemaDecision(response, schema.required, {
+          minScore,
+        });
+
+        if (!schemaDecision.isValid) {
+          logAIValidation(schemaDecision);
+          const result = this._recordValidationResult(
+            cacheKey,
+            schemaDecision,
+            testName
+          );
+          throw this._createValidationError(
+            result,
+            testName,
+            expectedBehavior,
+            response
+          );
+        }
       }
 
       // Build validation prompt
@@ -74,47 +106,43 @@ export class SemanticValidator {
       // Get LLM validation result using configured provider, then let the
       // decision engine normalize pass/fail behavior.
       const aiResult = config.framework.useMockAI
-        ? createMockDecision(response, expectedBehavior, { minScore })
+        ? createMockDecision(response, expectedBehavior, {
+            minScore,
+            requiredFields: schema?.required,
+          })
         : await this.client.getJSONCompletion(prompt, {
             required: ['isValid', 'validationScore', 'issues'],
           });
 
       const validationResult = interpretAIResponse(aiResult, { minScore });
+      logAIValidation(validationResult);
 
-      // Enhance result with metadata
-      const result = {
-        ...validationResult,
-        isValid: validationResult.isValid,
-        testName,
-        timestamp: new Date().toISOString(),
-      };
-
-      // Cache and track the result
-      this.cache.set(cacheKey, result);
-      this.validationHistory.push(result);
+      const result = this._recordValidationResult(
+        cacheKey,
+        validationResult,
+        testName
+      );
 
       // Return failure if score is below threshold
       if (!result.isValid) {
-        const error = new AIError(
-          `Validation failed for ${testName}: score ${result.validationScore}/${100}`,
-          {
-            validationResult: result,
-            expectedBehavior,
-            actualResponse: response,
-          }
+        throw this._createValidationError(
+          result,
+          testName,
+          expectedBehavior,
+          response
         );
-        error.validationResult = result;
-        throw error;
       }
 
       return result;
     } catch (error) {
       // Log validation failure
-      console.error(`Validation failed for test "${testName}":`, {
-        expectedBehavior,
-        response,
-        errorMessage: error.message,
-      });
+      if (!suppressFailureLog) {
+        console.error(`Validation failed for test "${testName}":`, {
+          expectedBehavior,
+          response,
+          errorMessage: error.message,
+        });
+      }
 
       throw error;
     }
@@ -193,15 +221,16 @@ export class SemanticValidator {
    */
   async batchValidate(validations) {
     try {
-      const results = await Promise.all(
-        validations.map((validation) =>
-          this.validateResponse(
-            validation.response,
-            validation.expectedBehavior,
-            validation.options
-          )
-        )
-      );
+      const results = [];
+
+      for (const validation of validations) {
+        const result = await this.validateResponse(
+          validation.response,
+          validation.expectedBehavior,
+          validation.options
+        );
+        results.push(result);
+      }
 
       return results;
     } catch (error) {
@@ -245,9 +274,42 @@ export class SemanticValidator {
    * Generate simple cache key from response and behavior
    * @private
    */
-  _getCacheKey(response, expectedBehavior) {
-    const hash = JSON.stringify([response, expectedBehavior]).length;
-    return `${expectedBehavior}-${hash}`;
+  _getCacheKey(response, expectedBehavior, options = {}) {
+    const cacheInput = JSON.stringify({
+      response,
+      expectedBehavior,
+      schema: options.schema ?? null,
+      minScore: options.minScore ?? this.minValidationScore,
+    });
+
+    return createHash('sha256').update(cacheInput).digest('hex');
+  }
+
+  _recordValidationResult(cacheKey, validationResult, testName) {
+    const result = {
+      ...validationResult,
+      isValid: validationResult.isValid,
+      testName,
+      timestamp: new Date().toISOString(),
+    };
+
+    this.cache.set(cacheKey, result);
+    this.validationHistory.push(result);
+
+    return result;
+  }
+
+  _createValidationError(result, testName, expectedBehavior, response) {
+    const error = new AIError(
+      `Validation failed for ${testName}: score ${result.validationScore}/${100}`,
+      {
+        validationResult: result,
+        expectedBehavior,
+        actualResponse: response,
+      }
+    );
+    error.validationResult = result;
+    return error;
   }
 }
 

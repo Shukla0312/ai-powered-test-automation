@@ -1,193 +1,324 @@
-# 🚀 AI-Powered Test Automation Framework
+# AI-Powered Test Automation Framework
 
-![CI](https://github.com/Shukla0312/ai-powered-test-automation/actions/workflows/ai-validation.yml/badge.svg)
+![CI](https://github.com/Shukla0312/ai-powered-test-automation/actions/workflows/test.yml/badge.svg)
 
-## 🧠 Overview
+Production-minded API validation framework that combines deterministic HTTP automation with AI-assisted semantic validation. The goal is to reduce brittle assertions by validating whether an API response is logically correct for a business scenario, not only whether it matches hardcoded values.
 
-This project demonstrates how Large Language Models (LLMs) can enhance traditional test automation by enabling **semantic validation** instead of brittle assertions.
+This project is built as a portfolio-quality SDET framework with modular services, provider abstraction, retry logic, validation caching, CI support, and realistic test scenarios.
 
-Instead of checking exact values, this framework uses AI to evaluate whether an API response is **logically correct, complete, and consistent**.
+## What This Tests
 
----
-
-## ✨ Key Capabilities
-
-- 🔍 **AI-Based API Validation**
-  - Validates responses using LLM reasoning instead of static assertions
-
-- 🧪 **Intelligent Test Case Generation**
-  - Generates positive, negative, and edge test cases using AI
-
-- 🔁 **Flaky Test Detection**
-  - Identifies inconsistent test outcomes across multiple runs
-
-- 🧱 **Modular Architecture**
-  - Clean separation of API, AI, and test layers
-
----
-
-## 💡 Why This Matters
-
-### Traditional Testing
-- Exact value assertions  
-- High maintenance  
-- Brittle tests  
-
-### AI-Powered Testing
-- Semantic validation  
-- Flexible assertions  
-- Better coverage with less effort  
-
-👉 This approach reduces false failures and improves test resilience.
-
----
-
-## 🏗️ Architecture
-
-```text
-tests/ai-validation.test.js
-        │
-        ▼
-services/apiService.js          -> calls the API under test
-        │
-        ▼
-utils/aiValidator.js            -> builds validation prompts and caches results
-        │
-        ▼
-utils/llmFactory.js             -> chooses Anthropic or OpenAI
-        │
-        ▼
-utils/aiDecisionEngine.js       -> converts AI output into PASS/FAIL decisions
-```
-
----
-
-## ✅ Current Coverage
-
-The sample suite tests the public JSONPlaceholder API:
+The current suite uses the public JSONPlaceholder API:
 
 ```text
 https://jsonplaceholder.typicode.com
 ```
 
-Covered cases:
+Covered scenarios:
 
-- `GET /posts/1` validates a successful blog post response.
-- `GET /users/1` validates a user profile response with required fields.
-- `GET /posts/99999` validates error handling for a missing resource.
-- `GET /posts/1` and `GET /posts/2` validate multiple responses in a batch.
+- `GET /posts/1`: validates a successful blog post response.
+- `GET /users/1`: validates a user profile response with required fields.
+- `GET /posts/99999`: validates API error handling for a missing resource.
+- `GET /posts/1` and `GET /posts/2`: validates multiple responses in a batch.
+- CRM onboarding scenario: validates a user profile for identity, contact, address, and company readiness.
+- Missing-email edge case: verifies that an incomplete user profile is rejected.
 
----
-
-## 🌍 Real-World Scenario Code
-
-A CRM-style onboarding validation example is included at:
+## Execution Flow
 
 ```text
-examples/real-world-scenario.js
+npm test
+   |
+   v
+tests/ai-validation.test.js
+   |
+   v
+services/apiService.js
+   |  - base URL
+   |  - timeout
+   |  - retry handling
+   v
+utils/aiValidator.js
+   |  - builds prompt
+   |  - checks cache
+   |  - calls selected provider
+   v
+utils/llmFactory.js
+   |  - Anthropic
+   |  - OpenAI
+   v
+utils/aiDecisionEngine.js
+   |  - parses AI output
+   |  - normalizes PASS/FAIL
+   v
+[AI VALIDATION] PASS - reason
 ```
 
-Run it with:
+## AI vs Traditional Testing
 
-```bash
-node examples/real-world-scenario.js
+| Area | Traditional API Test | AI-Powered Validation |
+| --- | --- | --- |
+| Assertion style | Exact field/value checks | Semantic and business-intent checks |
+| Maintenance | Breaks when harmless response details change | More tolerant of acceptable variation |
+| Signal | "Field exists" | "Response is logically valid for the workflow" |
+| Best use | Contracts, status codes, required fields | Data quality, completeness, real-world readiness |
+| Risk | Low ambiguity | Requires controls for nondeterminism |
+
+The framework keeps both approaches: deterministic API handling plus AI validation for meaning and completeness.
+
+## Project Structure
+
+```text
+ai-powered-test-automation/
+├── .github/workflows/
+│   └── test.yml
+├── config/
+│   ├── config.js
+│   └── index.js
+├── examples/
+│   └── real-world-scenario.js
+├── prompts/
+│   └── validationPrompts.js
+├── services/
+│   └── apiService.js
+├── tests/
+│   └── ai-validation.test.js
+├── utils/
+│   ├── aiDecisionEngine.js
+│   ├── aiValidator.js
+│   ├── anthropicClient.js
+│   ├── llmFactory.js
+│   ├── logger.js
+│   └── openaiClient.js
+├── .env.example
+├── package.json
+└── README.md
 ```
 
-Scenario covered:
+## Configuration
 
-- Fetches a customer profile from `/users/1`
-- Validates identity, contact, address, and company information
-- Uses semantic AI validation to decide whether the profile is ready for CRM onboarding
+Runtime configuration is centralized in `config/config.js`.
 
----
-
-## ⚙️ Config System
-
-Runtime configuration lives in `config/index.js` and is loaded from environment variables.
-
-Example:
+Key values:
 
 ```javascript
 export const config = {
-  framework: {
-    retries: 3,
+  execution: {
+    retryCount: 3,
+    aiMode: 'real',
     useMockAI: false,
+    timeout: 30000,
+    baseUrl: 'https://jsonplaceholder.typicode.com',
   },
 };
 ```
 
-Important config values:
+Environment variables:
 
 ```text
 LLM_PROVIDER=anthropic
 USE_MOCK_AI=false
-MAX_RETRIES=3
+ANTHROPIC_API_KEY=
 ANTHROPIC_MODEL=claude-sonnet-4-5-20250929
+OPENAI_API_KEY=
+OPENAI_MODEL=gpt-3.5-turbo
 API_BASE_URL=https://jsonplaceholder.typicode.com
+API_TIMEOUT=30000
+MAX_RETRIES=3
+RETRY_DELAY_MS=1000
+FLAKY_TEST_THRESHOLD=0.3
+LOG_LEVEL=info
 ```
 
-Use `USE_MOCK_AI=true` when you want to exercise the framework flow without calling a real LLM.
+Use `USE_MOCK_AI=true` for local smoke tests or CI runs where you want framework validation without using paid LLM calls.
 
----
+## Local Setup
 
-## 🧠 AI Decision Engine Layer
+```bash
+npm install
+cp .env.example .env
+```
 
-The project now separates AI response interpretation from test execution.
-
-Decision engine file:
+For real Anthropic validation, set:
 
 ```text
-utils/aiDecisionEngine.js
+LLM_PROVIDER=anthropic
+ANTHROPIC_API_KEY=your_key_here
+USE_MOCK_AI=false
 ```
 
-Example:
+For mock validation:
+
+```text
+USE_MOCK_AI=true
+```
+
+Run tests:
+
+```bash
+npm test
+```
+
+Run without real AI cost:
+
+```bash
+npm run test:mock
+```
+
+## Sample Execution
+
+Command:
+
+```bash
+npm test
+```
+
+Sample output:
+
+```text
+[TEST STEP] Running: Validate User Response with Schema
+GET /users/1 [200] 715ms
+[AI VALIDATION] PASS - Response is logically valid with score 100/100
+PASS - Validation Score: 100/100
+Reason: Response contains identity, contact, and company information.
+
+[TEST STEP] Running: Real-World User Onboarding Validation
+[AI VALIDATION] PASS - Response is logically valid with score 100/100
+[AI VALIDATION] FAIL - email is required
+[AI VALIDATION] PASS - Missing email edge case rejected: email is required
+
+TEST REPORT
+Total Tests: 5
+Passed: 5
+Failed: 0
+All tests passed!
+```
+
+## Visual Proof
+
+For portfolio presentation, include one of these in your repository:
+
+- A terminal screenshot showing `npm test` passing.
+- A checked-in sanitized log file under `docs/sample-output.txt`.
+
+Suggested command for generating a clean log:
+
+```bash
+npm run test:mock > docs/sample-output.txt
+```
+
+Do not include API keys, raw secrets, or sensitive payloads in screenshots or logs.
+
+## AI Decision Engine
+
+`utils/aiDecisionEngine.js` isolates AI interpretation from test execution.
+
+It returns a stable contract:
 
 ```javascript
-import { interpretAIResponse } from './utils/aiDecisionEngine.js';
-
-const decision = interpretAIResponse({
-  isValid: true,
-  validationScore: 92,
-  issues: [],
-});
-
-console.log(decision.isValid); // true
+{
+  status: 'PASS',
+  reason: 'Response is logically valid with score 100/100'
+}
 ```
 
-This keeps the test flow clean:
+The validator uses this layer so test code does not need to parse raw LLM output.
+
+## Logging
+
+The framework uses consistent log prefixes:
 
 ```text
-API response -> AI validation -> decision engine -> PASS/FAIL
+[TEST STEP] Running: Validate User Response with Schema
+[AI VALIDATION] PASS - Response is logically valid
+[SUMMARY] API Requests: 6
 ```
 
----
+This makes terminal output easier to scan in local runs and CI logs.
 
-## 🔐 Secrets and CI/CD
+## CI/CD
 
-The GitHub Actions workflow is:
+GitHub Actions workflow:
 
 ```text
-.github/workflows/ai-validation.yml
+.github/workflows/test.yml
 ```
 
-Store API keys in GitHub Secrets:
+The workflow runs on push, pull request, and manual dispatch.
+
+Secrets:
 
 ```text
 ANTHROPIC_API_KEY
 OPENAI_API_KEY
 ```
 
-Do not commit real keys in `.env`.
+Repository variables can override non-secret settings:
 
----
+```text
+LLM_PROVIDER
+USE_MOCK_AI
+API_BASE_URL
+API_TIMEOUT
+MAX_RETRIES
+RETRY_DELAY_MS
+```
 
-## ✅ Project Checklist
+## Limitations and Mitigation
 
-- `.env.example` ✔
-- `.gitignore` ✔
-- Retry logic ✔
-- Caching ✔
-- CI/CD badge ✔
-- Config system ✔
-- AI decision engine layer ✔
-- Real-world scenario code ✔
+| Limitation | Risk | Mitigation |
+| --- | --- | --- |
+| Non-deterministic AI behavior | Different responses across runs | Use low temperature, explicit prompts, validation thresholds, and cache repeated validations |
+| Rate limits | Provider throttling can fail tests | Retry logic with exponential backoff and sequential execution |
+| Cost | Real LLM calls cost money | Use `USE_MOCK_AI=true` for smoke tests and reserve real AI runs for targeted suites |
+| External API dependency | Public API/network failures can break runs | Configurable base URL, timeout, retry count, and mock AI mode |
+| AI is not a contract validator | It may miss strict schema issues | Keep deterministic checks for status codes and required fields alongside AI validation |
+
+## Extensibility
+
+The framework is designed for multiple LLM providers through `utils/llmFactory.js`.
+
+To add another provider:
+
+1. Add a provider client in `utils/`.
+2. Implement `getCompletion` and `getJSONCompletion`.
+3. Register it in `llmFactory.js`.
+4. Add provider-specific config in `config/config.js`.
+
+To scale the framework:
+
+- Add domain-specific prompt templates under `prompts/`.
+- Add service clients for internal APIs under `services/`.
+- Add scenario suites under `tests/`.
+- Store sanitized execution logs under `docs/`.
+- Run mock AI on every PR and real AI on scheduled or release workflows.
+
+## Production Signals
+
+- Centralized config layer
+- Provider abstraction for Anthropic and OpenAI
+- Retry logic for API and provider calls
+- Validation result caching
+- Structured AI decision engine
+- CI workflow with GitHub Secrets support
+- Real-world positive and negative test scenarios
+- Clear limitations and mitigation strategy
+
+## Useful Commands
+
+```bash
+npm install
+npm test
+npm run test:mock
+node examples/real-world-scenario.js
+```
+
+## Security
+
+- Keep `.env` local only.
+- Store CI keys in GitHub Secrets.
+- Do not commit screenshots or logs that contain secrets.
+- Rotate keys if they are exposed in terminal output, git history, or screenshots.
+
+## License
+
+MIT

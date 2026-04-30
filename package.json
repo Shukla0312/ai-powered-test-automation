@@ -1,12 +1,13 @@
 {
   "name": "ai-powered-test-automation",
   "version": "1.0.0",
-  "description": "Enterprise-grade AI-powered test automation framework using Node.js and OpenAI",
+  "description": "Production-minded AI-powered API validation framework using Node.js, Anthropic, and OpenAI",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "node tests/ai-validation.test.js",
     "test:mock": "USE_MOCK_AI=true node tests/ai-validation.test.js",
+    "test:unit": "node --test tests/unit/*.test.js",
     "lint": "eslint .",
     "dev": "node tests/ai-validation.test.js"
   },

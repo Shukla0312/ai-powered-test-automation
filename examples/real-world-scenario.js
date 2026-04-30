@@ -10,9 +10,12 @@
 
 import SemanticValidator from '../utils/aiValidator.js';
 import APIService from '../services/apiService.js';
+import config from '../config/index.js';
 
 const apiService = new APIService({
-  baseUrl: 'https://jsonplaceholder.typicode.com',
+  baseUrl: config.api.baseUrl,
+  timeout: config.api.timeout,
+  retryAttempts: config.api.retryAttempts,
 });
 
 const validator = new SemanticValidator({
