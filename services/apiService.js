@@ -176,7 +176,9 @@ export class APIService {
         statusCode: error.response?.status,
         duration,
         success: false,
-        expectedFailure: options.expectedStatus === error.response?.status,
+        expectedFailure:
+          options.expectedStatus !== undefined &&
+          options.expectedStatus === error.response?.status,
         errorMessage: error.message,
         retryCount,
         willRetry: shouldRetry,

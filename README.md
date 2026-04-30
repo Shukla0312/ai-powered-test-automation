@@ -110,6 +110,13 @@ User onboarding API validation for CRM readiness:
 
 The suite also removes `email` as an edge case and verifies rejection.
 
+Integration scenario pack under `tests/integration/` validates realistic API concerns:
+
+- Auth-required contract (`Authorization` header validation)
+- Versioned API access (`X-API-Version`)
+- Pagination behavior (`hasNextPage` and page transitions)
+- Partial failure recovery (`503` followed by retry success)
+
 ## ⚖️ Traditional vs AI Testing
 
 | Area | Traditional API Test | AI-Powered Validation |
@@ -141,6 +148,7 @@ cp .env.example .env
 npm test
 npm run test:mock
 npm run test:unit
+npm run test:integration
 ```
 
 ## 📈 Scalability
@@ -150,6 +158,7 @@ npm run test:unit
 - Prompt isolation supports domain-specific validation packs.
 - CI workflow (`.github/workflows/test.yml`) enables repeatable PR checks.
 - Reliability behavior is unit-tested for decision logic and HTTP retry/error paths.
+- CI publishes machine-ingestible artifacts (`reports/unit-test-report.json`, `reports/integration-test-report.json`, `reports/mock-test-report.json`) for triage.
 
 ## ⚠️ Limitations & Mitigation
 
@@ -170,6 +179,14 @@ This project demonstrates practical AI testing: deterministic controls first, AI
 - AI decision layer abstraction independent from API execution layer.
 - Config-driven execution for provider/mode/runtime behavior.
 - Extensibility path for multiple LLM providers without test rewrite.
+
+## ⚙️ Engineering Decisions
+
+- Schema-first, AI-second: fail fast on contract integrity before semantic scoring.
+- Sequential batch processing: reduce provider throttling risk and keep cost predictable.
+- Mock AI in PR workflows: preserve feedback speed and budget while keeping real-model validation optional.
+- Provider abstraction in `llmFactory.js`: isolate model vendor changes from test authoring.
+- Integration scenario pack: validate enterprise API behavior (auth/versioning/pagination/recovery) without coupling to paid external systems.
 
 ## 🧠 Author Note
 

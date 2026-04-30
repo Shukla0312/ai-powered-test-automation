@@ -11,6 +11,7 @@ function createServiceWithStub(stubFn, options = {}) {
   });
 
   service.axiosInstance = stubFn;
+  service._sleep = async () => {};
   return service;
 }
 
@@ -64,4 +65,46 @@ test('APIService logs expected negative responses as expected failures', async (
   assert.equal(history.length, 1);
   assert.equal(history[0].expectedFailure, true);
   assert.equal(history[0].statusCode, 404);
+});
+
+test('APIService throws after retry exhaustion on retryable errors', async () => {
+  let attempts = 0;
+  const service = createServiceWithStub(async () => {
+    attempts += 1;
+    const error = new Error('Service Unavailable');
+    error.response = { status: 503, data: { message: 'temporarily unavailable' } };
+    throw error;
+  }, { retryAttempts: 2 });
+
+  await assert.rejects(
+    () => service.get('/degraded'),
+    (error) =>
+      error instanceof APIServiceError &&
+      error.statusCode === 503 &&
+      error.message.includes('GET /degraded failed')
+  );
+
+  assert.equal(attempts, 3);
+});
+
+test('APIService retries timeout errors and surfaces timeout metadata', async () => {
+  let attempts = 0;
+  const service = createServiceWithStub(async () => {
+    attempts += 1;
+    const error = new Error('timeout exceeded');
+    error.code = 'ECONNABORTED';
+    throw error;
+  }, { retryAttempts: 1 });
+
+  await assert.rejects(
+    () => service.get('/slow-endpoint'),
+    (error) =>
+      error instanceof APIServiceError &&
+      error.statusCode === null &&
+      error.message.includes('timeout exceeded')
+  );
+
+  assert.equal(attempts, 2);
+  const history = service.getRequestHistory();
+  assert.equal(history.every((item) => item.expectedFailure === false), true);
 });

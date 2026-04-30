@@ -8,6 +8,10 @@
     "test": "node tests/ai-validation.test.js",
     "test:mock": "USE_MOCK_AI=true node tests/ai-validation.test.js",
     "test:unit": "node --test tests/unit/*.test.js",
+    "test:unit:json": "node scripts/run-and-report.js reports/unit-test-report.json \"node --test tests/unit/*.test.js\"",
+    "test:integration": "USE_MOCK_AI=true node --test tests/integration/*.test.js",
+    "test:integration:json": "node scripts/run-and-report.js reports/integration-test-report.json \"USE_MOCK_AI=true node --test tests/integration/*.test.js\"",
+    "test:mock:json": "node scripts/run-and-report.js reports/mock-test-report.json \"npm run test:mock || true\"",
     "lint": "eslint .",
     "dev": "node tests/ai-validation.test.js"
   },

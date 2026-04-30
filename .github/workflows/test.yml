@@ -44,5 +44,26 @@ jobs:
       - name: Run unit tests
         run: npm run test:unit
 
+      - name: Run unit tests with JSON reporter
+        run: npm run test:unit:json
+
+      - name: Run integration scenario pack
+        run: npm run test:integration
+
+      - name: Run integration scenario pack with JSON reporter
+        run: npm run test:integration:json
+
       - name: Run AI validation tests
         run: npm test
+
+      - name: Generate machine-readable test artifacts
+        run: |
+          npm run test:unit:json
+          npm run test:integration:json
+          npm run test:mock:json
+
+      - name: Upload test artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-test-artifacts
+          path: reports/
