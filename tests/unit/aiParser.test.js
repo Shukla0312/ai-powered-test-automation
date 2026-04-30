@@ -17,3 +17,13 @@ test('parseAIResponse returns fallback for malformed JSON', () => {
   assert.equal(parsed.reason, 'Invalid AI response format');
 });
 
+test('parseAIResponse parses markdown fenced JSON payload', () => {
+  const { parsed, isFallback } = parseAIResponse(
+    '```json\n{"isValid":true,"validationScore":95,"reason":"Valid output","confidence":0.95}\n```'
+  );
+  assert.equal(isFallback, false);
+  assert.equal(parsed.isValid, true);
+  assert.equal(parsed.validationScore, 95);
+  assert.equal(parsed.confidence, 0.95);
+});
+

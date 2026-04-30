@@ -25,9 +25,10 @@ export function parseAIResponse(rawResponse) {
     };
   }
 
+  const normalized = extractJsonPayload(rawResponse.trim());
   try {
     return {
-      parsed: JSON.parse(rawResponse),
+      parsed: JSON.parse(normalized),
       isFallback: false,
       fallback: null,
     };
@@ -38,5 +39,13 @@ export function parseAIResponse(rawResponse) {
       fallback: invalidFallback,
     };
   }
+}
+
+function extractJsonPayload(raw) {
+  const fencedMatch = raw.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
+  if (fencedMatch) {
+    return fencedMatch[1].trim();
+  }
+  return raw;
 }
 
