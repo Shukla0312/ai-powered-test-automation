@@ -50,6 +50,7 @@ export function interpretAIResponse(aiResult, options = {}) {
       isValid: passed,
       validationScore: passed ? 100 : 0,
       reason: buildReason(aiResult, status, passed ? 100 : 0),
+      confidence: passed ? 1 : 0,
       issues: passed ? [] : ['AI response did not contain a clear PASS decision'],
       suggestions: [],
     };
@@ -59,6 +60,9 @@ export function interpretAIResponse(aiResult, options = {}) {
   const aiMarkedValid = Boolean(aiResult.isValid ?? aiResult.pass ?? false);
   const passed = aiMarkedValid && validationScore >= minScore;
   const status = passed ? 'PASS' : 'FAIL';
+  const confidence = Number.isFinite(Number(aiResult.confidence))
+    ? Math.max(0, Math.min(1, Number(aiResult.confidence)))
+    : Math.max(0, Math.min(1, validationScore / 100));
 
   return {
     ...aiResult,
@@ -66,6 +70,7 @@ export function interpretAIResponse(aiResult, options = {}) {
     isValid: passed,
     validationScore,
     reason: buildReason(aiResult, status, validationScore),
+    confidence,
     issues: Array.isArray(aiResult.issues) ? aiResult.issues : [],
     suggestions: Array.isArray(aiResult.suggestions) ? aiResult.suggestions : [],
   };
@@ -92,6 +97,7 @@ export function createMockDecision(response, expectedBehavior, options = {}) {
         score >= minScore
           ? 'Mock AI confirmed response satisfies the validation intent'
           : 'Mock AI detected missing response data or required fields',
+      confidence: score >= minScore ? 0.9 : 0.45,
       issues: score >= minScore ? [] : ['Response or validation intent is incomplete'],
       suggestions: score >= minScore ? [] : ['Provide required fields and clear expected behavior'],
     },
@@ -110,6 +116,7 @@ export function createSchemaDecision(response, requiredFields = [], options = {}
       reason: passed
         ? 'Required schema fields are present'
         : `Missing required field(s): ${missingFields.join(', ')}`,
+      confidence: passed ? 1 : 0,
       issues: passed ? [] : missingFields.map((field) => `Missing required field: ${field}`),
       suggestions: passed ? [] : ['Fix the API response contract before semantic validation'],
     },

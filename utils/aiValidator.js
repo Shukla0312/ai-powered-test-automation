@@ -15,7 +15,8 @@ import {
   createSchemaDecision,
   interpretAIResponse,
 } from './aiDecisionEngine.js';
-import { logAIValidation } from './logger.js';
+import { logAIValidation, logDebug } from './logger.js';
+import { parseAIResponse } from './aiParser.js';
 import {
   getSemanticValidationPrompt,
   getResponseComparisonPrompt,
@@ -42,9 +43,9 @@ export class SemanticValidator {
     this.minValidationScore = options.minValidationScore || 75;
     this.cache = new Map(); // Simple cache for repeated validations
     this.validationHistory = []; // Track all validations
-    this.client = config.framework.useMockAI
+    this.client = options.client || (config.framework.useMockAI
       ? null
-      : getLLMClient(); // Initialize LLM client (OpenAI or Anthropic)
+      : getLLMClient()); // Initialize LLM client (OpenAI or Anthropic)
   }
 
   /**
@@ -110,11 +111,15 @@ export class SemanticValidator {
             minScore,
             requiredFields: schema?.required,
           })
-        : await this.client.getJSONCompletion(prompt, {
-            required: ['isValid', 'validationScore', 'issues'],
-          });
+        : await this.client.getCompletion(
+            `${prompt}\n\nRespond in JSON format with keys isValid, validationScore, issues, suggestions, reason, confidence.`
+          );
 
-      const validationResult = interpretAIResponse(aiResult, { minScore });
+      logDebug('Raw AI Response', aiResult);
+      const { parsed } = parseAIResponse(aiResult);
+      logDebug('Parsed AI Output', parsed);
+
+      const validationResult = interpretAIResponse(parsed, { minScore });
       logAIValidation(validationResult);
 
       const result = this._recordValidationResult(

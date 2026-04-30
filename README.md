@@ -171,6 +171,12 @@ npm run orchestrate:local
 - Unit/integration reports use first-class structured test events (Node test runner API) to generate XML.
 - Orchestration executes scenario-ID targeted shards (`SCENARIO_IDS`) instead of rerunning full packs per queue item.
 
+## ⚡ Performance Considerations
+
+- AI validation calls are cached by response + expectation + schema + score threshold to avoid repeated model requests.
+- Mock mode (`USE_MOCK_AI=true`) is used in fast CI paths to reduce latency and eliminate paid-model dependency.
+- Integration/orchestration defaults to controlled execution with shard-aware queue dispatch to avoid provider/API rate-limit spikes.
+
 ## ⚠️ Limitations & Mitigation
 
 | Limitation | Mitigation |

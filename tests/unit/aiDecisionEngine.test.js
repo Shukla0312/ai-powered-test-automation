@@ -20,6 +20,7 @@ test('interpretAIResponse returns PASS for valid structured AI output', () => {
   assert.equal(decision.status, 'PASS');
   assert.equal(decision.isValid, true);
   assert.equal(decision.reason, 'Response satisfies the business rule');
+  assert.equal(decision.confidence, 0.91);
 });
 
 test('interpretAIResponse returns FAIL when score is below threshold', () => {
@@ -35,6 +36,7 @@ test('interpretAIResponse returns FAIL when score is below threshold', () => {
   assert.equal(decision.status, 'FAIL');
   assert.equal(decision.isValid, false);
   assert.equal(decision.reason, 'Insufficient confidence');
+  assert.equal(decision.confidence, 0.7);
 });
 
 test('createSchemaDecision rejects missing required fields', () => {

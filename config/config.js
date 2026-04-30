@@ -29,6 +29,20 @@ const runtimeConfig = {
 
   llm: {
     provider: process.env.LLM_PROVIDER || 'anthropic',
+    providers: {
+      openai: {
+        keyEnv: 'OPENAI_API_KEY',
+        modelEnv: 'OPENAI_MODEL',
+      },
+      anthropic: {
+        keyEnv: 'ANTHROPIC_API_KEY',
+        modelEnv: 'ANTHROPIC_MODEL',
+      },
+      local: {
+        keyEnv: null,
+        modelEnv: 'LOCAL_LLM_MODEL',
+      },
+    },
   },
 
   openai: {

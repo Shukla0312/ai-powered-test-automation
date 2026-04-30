@@ -4,6 +4,9 @@ export function logAIValidation(decision) {
   console.log('[AI VALIDATION]');
   console.log(`Status : ${status}`);
   console.log(`Reason : ${reason}`);
+  if (decision.confidence !== undefined) {
+    console.log(`Confidence : ${decision.confidence}`);
+  }
 }
 
 export function logTestResult({ status, score = null, reason = null }) {
@@ -23,4 +26,12 @@ export function logStep(message) {
 
 export function logSummary(message) {
   console.log(`[SUMMARY] ${message}`);
+}
+
+export function logDebug(message, payload = null) {
+  if (payload === null || payload === undefined) {
+    console.log(`[DEBUG] ${message}`);
+    return;
+  }
+  console.log(`[DEBUG] ${message}: ${JSON.stringify(payload)}`);
 }
