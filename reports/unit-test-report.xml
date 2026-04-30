@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="unit-tests" tests="13" failures="0" errors="0" skipped="0" time="0">
+  <testcase name="interpretAIResponse returns PASS for valid structured AI output" classname="unit-tests"/>
+  <testcase name="interpretAIResponse returns FAIL when score is below threshold" classname="unit-tests"/>
+  <testcase name="createSchemaDecision rejects missing required fields" classname="unit-tests"/>
+  <testcase name="createMockDecision supports nested required field paths" classname="unit-tests"/>
+  <testcase name="APIService retries retryable errors and succeeds" classname="unit-tests"/>
+  <testcase name="APIService does not retry non-retryable 4xx errors" classname="unit-tests"/>
+  <testcase name="APIService logs expected negative responses as expected failures" classname="unit-tests"/>
+  <testcase name="APIService throws after retry exhaustion on retryable errors" classname="unit-tests"/>
+  <testcase name="APIService retries timeout errors and surfaces timeout metadata" classname="unit-tests"/>
+  <testcase name="parseJSONFromText parses plain JSON payload" classname="unit-tests"/>
+  <testcase name="parseJSONFromText parses markdown fenced JSON" classname="unit-tests"/>
+  <testcase name="parseJSONFromText extracts JSON wrapped with explanation text" classname="unit-tests"/>
+  <testcase name="parseJSONFromText throws on invalid payload without JSON object" classname="unit-tests"/>
+</testsuite>

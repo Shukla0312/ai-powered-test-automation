@@ -11,6 +11,7 @@
  */
 
 import { pathToFileURL } from 'url';
+import http from 'node:http';
 import SemanticValidator from '../utils/aiValidator.js';
 import APIService from '../services/apiService.js';
 import config from '../config/index.js';
@@ -30,6 +31,7 @@ export class TestSuite {
       timeout: config.api.timeout,
       retryAttempts: config.api.retryAttempts,
     });
+    this.fixtureServer = null;
 
     this.results = {
       passed: 0,
@@ -37,6 +39,79 @@ export class TestSuite {
       skipped: 0,
       tests: [],
     };
+  }
+
+  async startFixtureServer() {
+    const fixtureData = {
+      '/posts/1': {
+        id: 1,
+        userId: 1,
+        title: 'Fixture post title for deterministic validation',
+        body: 'Fixture post body content for deterministic AI semantic checks.',
+      },
+      '/posts/2': {
+        id: 2,
+        userId: 1,
+        title: 'Second fixture post for batch validation',
+        body: 'Second fixture body content used by deterministic batch tests.',
+      },
+      '/users/1': {
+        id: 1,
+        name: 'Leanne Graham',
+        username: 'Bret',
+        email: 'leanne@example.com',
+        phone: '1-770-736-8031 x56442',
+        address: {
+          street: 'Kulas Light',
+          suite: 'Apt. 556',
+          city: 'Gwenborough',
+          zipcode: '92998-3874',
+        },
+        company: {
+          name: 'Romaguera-Crona',
+          catchPhrase: 'Multi-layered client-server neural-net',
+        },
+      },
+    };
+
+    this.fixtureServer = http.createServer((req, res) => {
+      if (!req.url) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'invalid request' }));
+        return;
+      }
+
+      if (req.url === '/posts/99999') {
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Not Found' }));
+        return;
+      }
+
+      if (fixtureData[req.url]) {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(fixtureData[req.url]));
+        return;
+      }
+
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Not Found' }));
+    });
+
+    await new Promise((resolve) => this.fixtureServer.listen(0, resolve));
+    const address = this.fixtureServer.address();
+    const fixtureBaseUrl = `http://127.0.0.1:${address.port}`;
+
+    this.apiService = new APIService({
+      baseUrl: fixtureBaseUrl,
+      timeout: config.api.timeout,
+      retryAttempts: config.api.retryAttempts,
+    });
+  }
+
+  async stopFixtureServer() {
+    if (!this.fixtureServer) return;
+    await new Promise((resolve) => this.fixtureServer.close(resolve));
+    this.fixtureServer = null;
   }
 
   /**
@@ -393,25 +468,33 @@ export class TestSuite {
     const activeProvider = config.llm.provider;
     const activeModel =
       activeProvider === 'anthropic' ? config.anthropic.model : config.openai.model;
+    const useFixtureApi = config.framework.useMockAI;
+
+    if (useFixtureApi) {
+      await this.startFixtureServer();
+    }
 
     console.log('═'.repeat(70));
     console.log('🤖 AI-Powered Test Automation Framework');
     console.log('═'.repeat(70));
     console.log(
       `Configuration: Provider=${activeProvider}, Model=${activeModel}, ` +
-      `BaseURL=${config.api.baseUrl}`
+      `BaseURL=${useFixtureApi ? 'local-fixture-server' : config.api.baseUrl}`
     );
     console.log('═'.repeat(70));
+    try {
+      // Run all tests
+      await this.testValidateSuccessfulPostResponse();
+      await this.testValidateUserResponseStructure();
+      await this.testAPIServiceErrorHandling();
+      await this.testBatchValidation();
+      await this.testRealWorldUserOnboardingScenario();
 
-    // Run all tests
-    await this.testValidateSuccessfulPostResponse();
-    await this.testValidateUserResponseStructure();
-    await this.testAPIServiceErrorHandling();
-    await this.testBatchValidation();
-    await this.testRealWorldUserOnboardingScenario();
-
-    // Print report
-    this.printReport();
+      // Print report
+      this.printReport();
+    } finally {
+      await this.stopFixtureServer();
+    }
   }
 
   /**

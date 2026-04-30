@@ -117,6 +117,8 @@ Integration scenario pack under `tests/integration/` validates realistic API con
 - Pagination behavior (`hasNextPage` and page transitions)
 - Partial failure recovery (`503` followed by retry success)
 
+Domain-focused pack for checkout/payments with explicit business invariants and risk tiers is documented in `docs/domain-scenario-pack-checkout-payments.md` and implemented in `tests/integration/checkoutPaymentsScenario.test.js`.
+
 ## ⚖️ Traditional vs AI Testing
 
 | Area | Traditional API Test | AI-Powered Validation |
@@ -158,7 +160,7 @@ npm run test:integration
 - Prompt isolation supports domain-specific validation packs.
 - CI workflow (`.github/workflows/test.yml`) enables repeatable PR checks.
 - Reliability behavior is unit-tested for decision logic and HTTP retry/error paths.
-- CI publishes machine-ingestible artifacts (`reports/unit-test-report.json`, `reports/integration-test-report.json`, `reports/mock-test-report.json`) for triage.
+- CI publishes machine-ingestible artifacts in JSON and JUnit XML (`reports/*-report.json`, `reports/*-report.xml`) for triage and CI integration.
 
 ## ⚠️ Limitations & Mitigation
 
@@ -187,6 +189,9 @@ This project demonstrates practical AI testing: deterministic controls first, AI
 - Mock AI in PR workflows: preserve feedback speed and budget while keeping real-model validation optional.
 - Provider abstraction in `llmFactory.js`: isolate model vendor changes from test authoring.
 - Integration scenario pack: validate enterprise API behavior (auth/versioning/pagination/recovery) without coupling to paid external systems.
+
+AI validation guardrails and acceptance thresholds are documented in `docs/ai-safety-evaluation-policy.md`.
+Suite scaling strategy for 1000+ tests (sharding, queueing, tenant isolation, governance) is documented in `docs/suite-orchestration-strategy.md`.
 
 ## 🧠 Author Note
 

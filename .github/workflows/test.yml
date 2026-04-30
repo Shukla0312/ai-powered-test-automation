@@ -58,9 +58,9 @@ jobs:
 
       - name: Generate machine-readable test artifacts
         run: |
-          npm run test:unit:json
-          npm run test:integration:json
-          npm run test:mock:json
+          npm run test:unit:junit
+          npm run test:integration:junit
+          npm run test:mock:junit
 
       - name: Upload test artifacts
         uses: actions/upload-artifact@v4
