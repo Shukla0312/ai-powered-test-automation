@@ -8,6 +8,7 @@
 
 import { OpenAI } from 'openai';
 import config from '../config/index.js';
+import { parseJSONFromText } from './jsonResponseParser.js';
 
 /**
  * Singleton instance of OpenAI client
@@ -121,7 +122,7 @@ export async function getJSONCompletion(prompt, responseSchema = null, options =
   const response = await getCompletion(message, options);
 
   try {
-    const parsed = JSON.parse(response);
+    const parsed = parseJSONFromText(response);
 
     // Basic schema validation if provided
     if (responseSchema && !validateSchema(parsed, responseSchema)) {

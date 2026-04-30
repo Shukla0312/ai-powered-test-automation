@@ -37,10 +37,9 @@ All tests passed!
 
 ## 📸 Sample Execution
 
-Add terminal screenshot showing AI validation output.
+![AI validation terminal execution proof](docs/sample-execution.png)
 
-- Preferred filename: `/docs/sample-output.png`
-- Current example image in repo: `docs/sample-execution.png`
+- Recommended stable filename for future updates: `/docs/sample-output.png`
 - Keep logs/screenshots sanitized (no keys, no secrets, no sensitive payloads)
 
 Command to capture fresh demo output:
@@ -150,6 +149,7 @@ npm run test:unit
 - Provider abstraction supports adding future LLM vendors.
 - Prompt isolation supports domain-specific validation packs.
 - CI workflow (`.github/workflows/test.yml`) enables repeatable PR checks.
+- Reliability behavior is unit-tested for decision logic and HTTP retry/error paths.
 
 ## ⚠️ Limitations & Mitigation
 

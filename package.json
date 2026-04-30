@@ -19,15 +19,12 @@
     "openai",
     "llm"
   ],
-  "author": "SDET",
+  "author": "Rahul Shukla",
   "license": "MIT",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.24.3",
     "axios": "^1.7.0",
     "dotenv": "^16.4.5",
     "openai": "^4.52.0"
-  },
-  "devDependencies": {
-    "jest": "^29.7.0"
   }
 }

@@ -10,6 +10,7 @@
 
 import Anthropic from '@anthropic-ai/sdk';
 import config from '../config/index.js';
+import { parseJSONFromText } from './jsonResponseParser.js';
 
 /**
  * Singleton instance of Anthropic client
@@ -124,14 +125,7 @@ export async function getJSONCompletion(prompt, responseSchema = null, options =
   const response = await getCompletion(message, options);
 
   try {
-    // Claude might wrap JSON in markdown code blocks, try to extract it
-    let jsonText = response;
-    const jsonMatch = response.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
-    if (jsonMatch) {
-      jsonText = jsonMatch[1];
-    }
-
-    const parsed = JSON.parse(jsonText);
+    const parsed = parseJSONFromText(response);
 
     // Basic schema validation if provided
     if (responseSchema && !validateSchema(parsed, responseSchema)) {
