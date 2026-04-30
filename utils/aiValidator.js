@@ -43,7 +43,8 @@ export class SemanticValidator {
     this.minValidationScore = options.minValidationScore || 75;
     this.cache = new Map(); // Simple cache for repeated validations
     this.validationHistory = []; // Track all validations
-    this.client = options.client || (config.framework.useMockAI
+    this.useMockAI = options.useMockAI ?? config.framework.useMockAI;
+    this.client = options.client || (this.useMockAI
       ? null
       : getLLMClient()); // Initialize LLM client (OpenAI or Anthropic)
   }
@@ -106,7 +107,7 @@ export class SemanticValidator {
 
       // Get LLM validation result using configured provider, then let the
       // decision engine normalize pass/fail behavior.
-      const aiResult = config.framework.useMockAI
+      const aiResult = this.useMockAI
         ? createMockDecision(response, expectedBehavior, {
             minScore,
             requiredFields: schema?.required,

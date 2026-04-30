@@ -6,6 +6,7 @@ import SemanticValidator, { AIError } from '../../utils/aiValidator.js';
 test('SemanticValidator fails safely on malformed AI response', async () => {
   const validator = new SemanticValidator({
     minValidationScore: 80,
+    useMockAI: false,
     client: {
       async getCompletion() {
         return '{not-valid-json';
@@ -30,6 +31,7 @@ test('SemanticValidator rejects missing required fields before AI call', async (
   let called = false;
   const validator = new SemanticValidator({
     minValidationScore: 80,
+    useMockAI: false,
     client: {
       async getCompletion() {
         called = true;
