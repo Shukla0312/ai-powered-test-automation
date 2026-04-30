@@ -14,7 +14,7 @@ import { pathToFileURL } from 'url';
 import SemanticValidator from '../utils/aiValidator.js';
 import APIService from '../services/apiService.js';
 import config from '../config/index.js';
-import { logStep, logSummary } from '../utils/logger.js';
+import { logAIValidation, logStep, logSummary } from '../utils/logger.js';
 
 /**
  * Test Suite: AI Semantic Validation
@@ -332,9 +332,10 @@ export class TestSuite {
         return;
       } catch (error) {
         if (!error.validationResult) throw error;
-        console.log(
-          `[AI VALIDATION] PASS - Missing email edge case rejected: ${error.validationResult.reason}`
-        );
+        logAIValidation({
+          status: 'PASS',
+          reason: `Missing email edge case rejected: ${error.validationResult.reason}`,
+        });
       }
 
       console.log(`✓ PASS - CRM onboarding score: ${validResult.validationScore}/100`);
