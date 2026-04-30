@@ -1,14 +1,41 @@
 {
-  "generatedAt": "2026-04-30T11:48:11.144Z",
-  "total": 4,
-  "passed": 4,
+  "generatedAt": "2026-04-30T11:55:25.582Z",
+  "total": 20,
+  "passed": 20,
   "failed": 0,
   "passRate": 1,
   "minimumPassRate": 1,
+  "categoryPassRates": {
+    "threshold": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "passRate": 1
+    },
+    "ambiguity": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "passRate": 1
+    },
+    "schema": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "passRate": 1
+    },
+    "malformed-output": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "passRate": 1
+    }
+  },
   "results": [
     {
-      "id": "BENCH-INTERPRET-001",
-      "description": "Valid structured AI response should pass above threshold",
+      "id": "BENCH-THR-001",
+      "category": "threshold",
+      "description": "Score above threshold passes",
       "expected": {
         "status": "PASS",
         "isValid": true
@@ -17,13 +44,14 @@
         "status": "PASS",
         "isValid": true,
         "validationScore": 91,
-        "reason": "Response satisfies workflow intent"
+        "reason": "Response is logically valid with score 91/100"
       },
       "passed": true
     },
     {
-      "id": "BENCH-INTERPRET-002",
-      "description": "Below-threshold score should fail",
+      "id": "BENCH-THR-002",
+      "category": "threshold",
+      "description": "Score below threshold fails",
       "expected": {
         "status": "FAIL",
         "isValid": false
@@ -32,13 +60,142 @@
         "status": "FAIL",
         "isValid": false,
         "validationScore": 60,
-        "reason": "Low confidence"
+        "reason": "Response did not meet the minimum validation score of 60/100"
       },
       "passed": true
     },
     {
-      "id": "BENCH-SCHEMA-001",
-      "description": "Missing required field should fail schema decision",
+      "id": "BENCH-THR-003",
+      "category": "threshold",
+      "description": "Explicit invalid fails",
+      "expected": {
+        "status": "FAIL",
+        "isValid": false
+      },
+      "actual": {
+        "status": "FAIL",
+        "isValid": false,
+        "validationScore": 95,
+        "reason": "Response did not meet the minimum validation score of 95/100"
+      },
+      "passed": true
+    },
+    {
+      "id": "BENCH-THR-004",
+      "category": "threshold",
+      "description": "Edge score equal threshold passes",
+      "expected": {
+        "status": "PASS",
+        "isValid": true
+      },
+      "actual": {
+        "status": "PASS",
+        "isValid": true,
+        "validationScore": 80,
+        "reason": "Response is logically valid with score 80/100"
+      },
+      "passed": true
+    },
+    {
+      "id": "BENCH-THR-005",
+      "category": "threshold",
+      "description": "String PASS interpretation",
+      "expected": {
+        "status": "PASS",
+        "isValid": true
+      },
+      "actual": {
+        "status": "PASS",
+        "isValid": true,
+        "validationScore": 100,
+        "reason": "PASS - valid"
+      },
+      "passed": true
+    },
+    {
+      "id": "BENCH-AMB-001",
+      "category": "ambiguity",
+      "description": "Ambiguous PASS+FAIL string fails closed",
+      "expected": {
+        "status": "FAIL",
+        "isValid": false
+      },
+      "actual": {
+        "status": "FAIL",
+        "isValid": false,
+        "validationScore": 0,
+        "reason": "PASS and FAIL"
+      },
+      "passed": true
+    },
+    {
+      "id": "BENCH-AMB-002",
+      "category": "ambiguity",
+      "description": "No pass keyword fails",
+      "expected": {
+        "status": "FAIL",
+        "isValid": false
+      },
+      "actual": {
+        "status": "FAIL",
+        "isValid": false,
+        "validationScore": 0,
+        "reason": "unclear answer"
+      },
+      "passed": true
+    },
+    {
+      "id": "BENCH-AMB-003",
+      "category": "ambiguity",
+      "description": "Reasoning only with high score and valid passes",
+      "expected": {
+        "status": "PASS",
+        "isValid": true
+      },
+      "actual": {
+        "status": "PASS",
+        "isValid": true,
+        "validationScore": 88,
+        "reason": "looks acceptable"
+      },
+      "passed": true
+    },
+    {
+      "id": "BENCH-AMB-004",
+      "category": "ambiguity",
+      "description": "Issues list used as fail reason",
+      "expected": {
+        "status": "FAIL",
+        "isValid": false
+      },
+      "actual": {
+        "status": "FAIL",
+        "isValid": false,
+        "validationScore": 10,
+        "reason": "missing contract"
+      },
+      "passed": true
+    },
+    {
+      "id": "BENCH-AMB-005",
+      "category": "ambiguity",
+      "description": "pass boolean key should map to valid",
+      "expected": {
+        "status": "PASS",
+        "isValid": true
+      },
+      "actual": {
+        "status": "PASS",
+        "isValid": true,
+        "validationScore": 90,
+        "reason": "Response is logically valid with score 90/100"
+      },
+      "passed": true
+    },
+    {
+      "id": "BENCH-SCH-001",
+      "category": "schema",
+      "description": "Schema missing required field fails",
       "expected": {
         "status": "FAIL",
         "isValid": false
@@ -52,8 +209,121 @@
       "passed": true
     },
     {
-      "id": "BENCH-MOCK-001",
-      "description": "Mock decision should pass with required fields",
+      "id": "BENCH-SCH-002",
+      "category": "schema",
+      "description": "Schema with all required passes",
+      "expected": {
+        "status": "PASS",
+        "isValid": true
+      },
+      "actual": {
+        "status": "PASS",
+        "isValid": true,
+        "validationScore": 100,
+        "reason": "Required schema fields are present"
+      },
+      "passed": true
+    },
+    {
+      "id": "BENCH-SCH-003",
+      "category": "schema",
+      "description": "Nested required field passes",
+      "expected": {
+        "status": "PASS",
+        "isValid": true
+      },
+      "actual": {
+        "status": "PASS",
+        "isValid": true,
+        "validationScore": 100,
+        "reason": "Required schema fields are present"
+      },
+      "passed": true
+    },
+    {
+      "id": "BENCH-SCH-004",
+      "category": "schema",
+      "description": "Nested required field missing fails",
+      "expected": {
+        "status": "FAIL",
+        "isValid": false
+      },
+      "actual": {
+        "status": "FAIL",
+        "isValid": false,
+        "validationScore": 0,
+        "reason": "Missing required field(s): company.name"
+      },
+      "passed": true
+    },
+    {
+      "id": "BENCH-SCH-005",
+      "category": "schema",
+      "description": "Empty required value fails",
+      "expected": {
+        "status": "FAIL",
+        "isValid": false
+      },
+      "actual": {
+        "status": "FAIL",
+        "isValid": false,
+        "validationScore": 0,
+        "reason": "Missing required field(s): email"
+      },
+      "passed": true
+    },
+    {
+      "id": "BENCH-MAL-001",
+      "category": "malformed-output",
+      "description": "Malformed free-text fails closed",
+      "expected": {
+        "status": "FAIL",
+        "isValid": false
+      },
+      "actual": {
+        "status": "FAIL",
+        "isValid": false,
+        "validationScore": 0,
+        "reason": "N/A"
+      },
+      "passed": true
+    },
+    {
+      "id": "BENCH-MAL-002",
+      "category": "malformed-output",
+      "description": "Object with missing fields fails by score default",
+      "expected": {
+        "status": "FAIL",
+        "isValid": false
+      },
+      "actual": {
+        "status": "FAIL",
+        "isValid": false,
+        "validationScore": 0,
+        "reason": "Response did not meet the minimum validation score of 0/100"
+      },
+      "passed": true
+    },
+    {
+      "id": "BENCH-MAL-003",
+      "category": "malformed-output",
+      "description": "Mock decision with missing required field fails",
+      "expected": {
+        "status": "FAIL",
+        "isValid": false
+      },
+      "actual": {
+        "status": "FAIL",
+        "isValid": false,
+        "validationScore": 45,
+        "reason": "Mock AI detected missing response data or required fields"
+      },
+      "passed": true
+    },
+    {
+      "id": "BENCH-MAL-004",
+      "category": "malformed-output",
+      "description": "Mock decision with proper fields passes",
       "expected": {
         "status": "PASS",
         "isValid": true
@@ -63,6 +333,22 @@
         "isValid": true,
         "validationScore": 90,
         "reason": "Mock AI confirmed response satisfies the validation intent"
+      },
+      "passed": true
+    },
+    {
+      "id": "BENCH-MAL-005",
+      "category": "malformed-output",
+      "description": "Lowercase fail string fails",
+      "expected": {
+        "status": "FAIL",
+        "isValid": false
+      },
+      "actual": {
+        "status": "FAIL",
+        "isValid": false,
+        "validationScore": 0,
+        "reason": "fail response"
       },
       "passed": true
     }

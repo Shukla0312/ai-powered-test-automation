@@ -4,10 +4,37 @@ const manifestPath = 'tests/integration/scenario-manifest.json';
 const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
 const errors = [];
 const validRisks = new Set(['critical', 'high', 'medium', 'low']);
+const riskPolicy = {
+  critical: {
+    minScore: 80,
+    mandatoryGates: ['schema', 'semantic', 'invariant'],
+  },
+  high: {
+    minScore: 80,
+    mandatoryGates: ['schema', 'semantic', 'invariant'],
+  },
+  medium: {
+    minScore: 75,
+    mandatoryGates: ['schema', 'semantic'],
+  },
+  low: {
+    minScore: 70,
+    mandatoryGates: ['schema'],
+  },
+};
 
 for (const [index, scenario] of manifest.entries()) {
   const pointer = `scenario[${index}] ${scenario.id ?? '<missing-id>'}`;
-  const requiredFields = ['id', 'domain', 'risk', 'tenant', 'policyRef', 'testFile', 'command'];
+  const requiredFields = [
+    'id',
+    'domain',
+    'risk',
+    'tenant',
+    'policyRef',
+    'testFile',
+    'minScore',
+    'mandatoryGates',
+  ];
 
   for (const field of requiredFields) {
     if (!scenario[field]) {
@@ -17,6 +44,22 @@ for (const [index, scenario] of manifest.entries()) {
 
   if (scenario.risk && !validRisks.has(scenario.risk)) {
     errors.push(`${pointer}: invalid risk "${scenario.risk}"`);
+  }
+
+  if (scenario.risk && scenario.minScore !== undefined) {
+    const expectedScore = riskPolicy[scenario.risk].minScore;
+    if (Number(scenario.minScore) < expectedScore) {
+      errors.push(`${pointer}: minScore ${scenario.minScore} below policy minimum ${expectedScore}`);
+    }
+  }
+
+  if (scenario.risk && Array.isArray(scenario.mandatoryGates)) {
+    const requiredGates = riskPolicy[scenario.risk].mandatoryGates;
+    for (const gate of requiredGates) {
+      if (!scenario.mandatoryGates.includes(gate)) {
+        errors.push(`${pointer}: missing mandatory gate "${gate}" for risk ${scenario.risk}`);
+      }
+    }
   }
 
   if (scenario.policyRef) {

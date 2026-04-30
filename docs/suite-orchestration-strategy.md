@@ -24,6 +24,25 @@ Use a two-stage model:
 2. **Worker stage (data plane)**  
    Execute planned work in bounded workers with queue controls and retry policy.
 
+```text
+scenario-manifest.json
+        |
+        v
+[Planner + Policy Gate]
+        |
+        v
+[Shard Builder] ---> [Shard Queue]
+                        |   |
+                        v   v
+                    [Worker 1..N]
+                        |
+                        v
+                 [JSON + JUnit Reports]
+                        |
+                        v
+               [Governance + Trend Checks]
+```
+
 ## Sharding Strategy
 
 Shards are created deterministically to improve cache reuse and reproducibility.

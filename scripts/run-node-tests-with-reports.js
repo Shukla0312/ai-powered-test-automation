@@ -45,6 +45,7 @@ for await (const event of stream) {
 }
 
 const summary = {
+  mode: 'node-test-events',
   command: `node:test run ${testDir}`,
   suiteName,
   startedAt,
@@ -53,7 +54,10 @@ const summary = {
   passed: cases.filter((item) => item.status === 'passed').length,
   failed: cases.filter((item) => item.status === 'failed').length,
   success: cases.every((item) => item.status === 'passed'),
+  exitCode: cases.every((item) => item.status === 'passed') ? 0 : 1,
   testCases: cases,
+  stdout: '',
+  stderr: '',
 };
 
 await mkdir(path.dirname(outputBase), { recursive: true });

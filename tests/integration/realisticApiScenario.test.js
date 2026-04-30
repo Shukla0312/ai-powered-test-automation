@@ -5,6 +5,14 @@ import test from 'node:test';
 import APIService from '../../services/apiService.js';
 import { createSchemaDecision } from '../../utils/aiDecisionEngine.js';
 
+const scenarioId = 'ENT-MED-001';
+const selectedScenarioIds = new Set(
+  (process.env.SCENARIO_IDS || '')
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean)
+);
+
 function startMockEnterpriseApi() {
   let ordersFailureCount = 0;
 
@@ -72,6 +80,10 @@ function startMockEnterpriseApi() {
 }
 
 test('integration: validates auth, versioning, pagination, and partial failure recovery', async () => {
+  if (selectedScenarioIds.size > 0 && !selectedScenarioIds.has(scenarioId)) {
+    return;
+  }
+
   const { server, baseUrl } = await startMockEnterpriseApi();
   const api = new APIService({
     baseUrl,

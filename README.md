@@ -152,6 +152,9 @@ npm test
 npm run test:mock
 npm run test:unit
 npm run test:integration
+npm run test:unit:reports
+npm run test:integration:reports
+npm run test:mock:reports
 npm run test:benchmark
 npm run validate:governance
 npm run orchestrate:local
@@ -166,6 +169,7 @@ npm run orchestrate:local
 - Reliability behavior is unit-tested for decision logic and HTTP retry/error paths.
 - CI publishes machine-ingestible artifacts in JSON and JUnit XML (`reports/*-report.json`, `reports/*-report.xml`) for triage and CI integration.
 - Unit/integration reports use first-class structured test events (Node test runner API) to generate XML.
+- Orchestration executes scenario-ID targeted shards (`SCENARIO_IDS`) instead of rerunning full packs per queue item.
 
 ## ⚠️ Limitations & Mitigation
 

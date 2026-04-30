@@ -4,79 +4,87 @@
     "domain": "core-api",
     "risk": "medium",
     "tenant": "shared",
+    "minScore": 75,
+    "mandatoryGates": ["schema", "semantic"],
     "policyRef": "docs/ai-safety-evaluation-policy.md",
     "testFile": "tests/integration/realisticApiScenario.test.js",
-    "priority": "p2",
-    "command": "USE_MOCK_AI=true node --test tests/integration/realisticApiScenario.test.js"
+    "priority": "p2"
   },
   {
     "id": "PAY-CRIT-001",
     "domain": "checkout-payments",
     "risk": "critical",
     "tenant": "shared",
+    "minScore": 80,
+    "mandatoryGates": ["schema", "semantic", "invariant"],
     "policyRef": "docs/ai-safety-evaluation-policy.md",
     "testFile": "tests/integration/checkoutPaymentsScenario.test.js",
-    "priority": "p0",
-    "command": "USE_MOCK_AI=true node --test tests/integration/checkoutPaymentsScenario.test.js"
+    "priority": "p0"
   },
   {
     "id": "PAY-HIGH-002",
     "domain": "checkout-payments",
     "risk": "high",
     "tenant": "shared",
+    "minScore": 80,
+    "mandatoryGates": ["schema", "semantic", "invariant"],
     "policyRef": "docs/ai-safety-evaluation-policy.md",
     "testFile": "tests/integration/checkoutPaymentsScenario.test.js",
-    "priority": "p1",
-    "command": "USE_MOCK_AI=true node --test tests/integration/checkoutPaymentsScenario.test.js"
+    "priority": "p1"
   },
   {
     "id": "PAY-MED-003",
     "domain": "checkout-payments",
     "risk": "medium",
     "tenant": "shared",
+    "minScore": 75,
+    "mandatoryGates": ["schema", "semantic", "invariant"],
     "policyRef": "docs/ai-safety-evaluation-policy.md",
     "testFile": "tests/integration/checkoutPaymentsScenario.test.js",
-    "priority": "p2",
-    "command": "USE_MOCK_AI=true node --test tests/integration/checkoutPaymentsScenario.test.js"
+    "priority": "p2"
   },
   {
     "id": "PAY-CRIT-004",
     "domain": "checkout-payments-security",
     "risk": "critical",
     "tenant": "shared",
+    "minScore": 80,
+    "mandatoryGates": ["schema", "semantic", "invariant"],
     "policyRef": "docs/ai-safety-evaluation-policy.md",
     "testFile": "tests/integration/checkoutPaymentsScenario.test.js",
-    "priority": "p0",
-    "command": "USE_MOCK_AI=true node --test tests/integration/checkoutPaymentsScenario.test.js"
+    "priority": "p0"
   },
   {
     "id": "PAY-HIGH-005",
     "domain": "checkout-payments-security",
     "risk": "high",
     "tenant": "shared",
+    "minScore": 80,
+    "mandatoryGates": ["schema", "semantic", "invariant"],
     "policyRef": "docs/ai-safety-evaluation-policy.md",
     "testFile": "tests/integration/checkoutPaymentsScenario.test.js",
-    "priority": "p1",
-    "command": "USE_MOCK_AI=true node --test tests/integration/checkoutPaymentsScenario.test.js"
+    "priority": "p1"
   },
   {
     "id": "PAY-CRIT-006",
     "domain": "checkout-payments-security",
     "risk": "critical",
     "tenant": "shared",
+    "minScore": 80,
+    "mandatoryGates": ["schema", "semantic", "invariant"],
     "policyRef": "docs/ai-safety-evaluation-policy.md",
     "testFile": "tests/integration/checkoutPaymentsScenario.test.js",
-    "priority": "p0",
-    "command": "USE_MOCK_AI=true node --test tests/integration/checkoutPaymentsScenario.test.js"
+    "priority": "p0"
   },
   {
     "id": "PAY-HIGH-007",
     "domain": "checkout-payments-security",
     "risk": "high",
     "tenant": "shared",
+    "minScore": 80,
+    "mandatoryGates": ["schema", "semantic", "invariant"],
     "policyRef": "docs/ai-safety-evaluation-policy.md",
     "testFile": "tests/integration/checkoutPaymentsScenario.test.js",
-    "priority": "p1",
-    "command": "USE_MOCK_AI=true node --test tests/integration/checkoutPaymentsScenario.test.js"
+    "priority": "p1"
   }
 ]

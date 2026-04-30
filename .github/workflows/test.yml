@@ -60,7 +60,7 @@ jobs:
         run: |
           npm run test:unit:reports
           npm run test:integration:reports
-          npm run test:mock:junit
+          npm run test:mock:reports
 
       - name: Run orchestration dry-run profile
         run: npm run orchestrate:local

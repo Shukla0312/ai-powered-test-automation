@@ -57,14 +57,14 @@ function filterByProfile(entries, executionProfile) {
 function buildShards(entries) {
   const shardMap = new Map();
   for (const item of entries) {
-    const key = `${item.domain}:${item.risk}:${item.tenant}`;
+    const key = `${item.domain}:${item.risk}:${item.tenant}:${item.testFile}`;
     if (!shardMap.has(key)) {
       shardMap.set(key, {
         shardKey: key,
         domain: item.domain,
         risk: item.risk,
         tenant: item.tenant,
-        command: item.command,
+        testFile: item.testFile,
         scenarioIds: [],
       });
     }
@@ -75,7 +75,10 @@ function buildShards(entries) {
 
 async function runShard(shard, workerId) {
   const startedAt = new Date().toISOString();
-  const output = await execCommand(shard.command);
+  const command =
+    `USE_MOCK_AI=true SCENARIO_IDS=${shard.scenarioIds.join(',')} ` +
+    `node --test ${shard.testFile}`;
+  const output = await execCommand(command);
 
   return {
     workerId,
@@ -84,7 +87,7 @@ async function runShard(shard, workerId) {
     risk: shard.risk,
     tenant: shard.tenant,
     scenarioIds: shard.scenarioIds,
-    command: shard.command,
+    command,
     startedAt,
     finishedAt: new Date().toISOString(),
     success: output.exitCode === 0,

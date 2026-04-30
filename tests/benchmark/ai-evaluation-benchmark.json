@@ -1,47 +1,25 @@
 [
-  {
-    "id": "BENCH-INTERPRET-001",
-    "type": "interpret",
-    "description": "Valid structured AI response should pass above threshold",
-    "input": {
-      "isValid": true,
-      "validationScore": 91,
-      "reason": "Response satisfies workflow intent"
-    },
-    "options": { "minScore": 80 },
-    "expected": { "status": "PASS", "isValid": true }
-  },
-  {
-    "id": "BENCH-INTERPRET-002",
-    "type": "interpret",
-    "description": "Below-threshold score should fail",
-    "input": {
-      "isValid": true,
-      "validationScore": 60,
-      "issues": ["Low confidence"]
-    },
-    "options": { "minScore": 80 },
-    "expected": { "status": "FAIL", "isValid": false }
-  },
-  {
-    "id": "BENCH-SCHEMA-001",
-    "type": "schema",
-    "description": "Missing required field should fail schema decision",
-    "input": {
-      "response": { "id": 1, "name": "A" },
-      "requiredFields": ["id", "name", "email"]
-    },
-    "expected": { "status": "FAIL", "isValid": false }
-  },
-  {
-    "id": "BENCH-MOCK-001",
-    "type": "mock",
-    "description": "Mock decision should pass with required fields",
-    "input": {
-      "response": { "id": 1, "company": { "name": "Acme" } },
-      "expectedBehavior": "Must include company details",
-      "options": { "minScore": 80, "requiredFields": ["id", "company.name"] }
-    },
-    "expected": { "status": "PASS", "isValid": true }
-  }
+  { "id": "BENCH-THR-001", "category": "threshold", "type": "interpret", "description": "Score above threshold passes", "input": { "isValid": true, "validationScore": 91 }, "options": { "minScore": 80 }, "expected": { "status": "PASS", "isValid": true } },
+  { "id": "BENCH-THR-002", "category": "threshold", "type": "interpret", "description": "Score below threshold fails", "input": { "isValid": true, "validationScore": 60 }, "options": { "minScore": 80 }, "expected": { "status": "FAIL", "isValid": false } },
+  { "id": "BENCH-THR-003", "category": "threshold", "type": "interpret", "description": "Explicit invalid fails", "input": { "isValid": false, "validationScore": 95 }, "options": { "minScore": 80 }, "expected": { "status": "FAIL", "isValid": false } },
+  { "id": "BENCH-THR-004", "category": "threshold", "type": "interpret", "description": "Edge score equal threshold passes", "input": { "isValid": true, "validationScore": 80 }, "options": { "minScore": 80 }, "expected": { "status": "PASS", "isValid": true } },
+  { "id": "BENCH-THR-005", "category": "threshold", "type": "interpret", "description": "String PASS interpretation", "input": "PASS - valid", "options": { "minScore": 80 }, "expected": { "status": "PASS", "isValid": true } },
+
+  { "id": "BENCH-AMB-001", "category": "ambiguity", "type": "interpret", "description": "Ambiguous PASS+FAIL string fails closed", "input": "PASS and FAIL", "options": { "minScore": 80 }, "expected": { "status": "FAIL", "isValid": false } },
+  { "id": "BENCH-AMB-002", "category": "ambiguity", "type": "interpret", "description": "No pass keyword fails", "input": "unclear answer", "options": { "minScore": 80 }, "expected": { "status": "FAIL", "isValid": false } },
+  { "id": "BENCH-AMB-003", "category": "ambiguity", "type": "interpret", "description": "Reasoning only with high score and valid passes", "input": { "isValid": true, "validationScore": 88, "reasoning": "looks acceptable" }, "options": { "minScore": 80 }, "expected": { "status": "PASS", "isValid": true } },
+  { "id": "BENCH-AMB-004", "category": "ambiguity", "type": "interpret", "description": "Issues list used as fail reason", "input": { "isValid": false, "validationScore": 10, "issues": ["missing contract"] }, "options": { "minScore": 80 }, "expected": { "status": "FAIL", "isValid": false } },
+  { "id": "BENCH-AMB-005", "category": "ambiguity", "type": "interpret", "description": "pass boolean key should map to valid", "input": { "pass": true, "score": 90 }, "options": { "minScore": 80 }, "expected": { "status": "PASS", "isValid": true } },
+
+  { "id": "BENCH-SCH-001", "category": "schema", "type": "schema", "description": "Schema missing required field fails", "input": { "response": { "id": 1, "name": "A" }, "requiredFields": ["id", "name", "email"] }, "expected": { "status": "FAIL", "isValid": false } },
+  { "id": "BENCH-SCH-002", "category": "schema", "type": "schema", "description": "Schema with all required passes", "input": { "response": { "id": 1, "name": "A", "email": "a@x.com" }, "requiredFields": ["id", "name", "email"] }, "expected": { "status": "PASS", "isValid": true } },
+  { "id": "BENCH-SCH-003", "category": "schema", "type": "schema", "description": "Nested required field passes", "input": { "response": { "company": { "name": "Acme" } }, "requiredFields": ["company.name"] }, "expected": { "status": "PASS", "isValid": true } },
+  { "id": "BENCH-SCH-004", "category": "schema", "type": "schema", "description": "Nested required field missing fails", "input": { "response": { "company": {} }, "requiredFields": ["company.name"] }, "expected": { "status": "FAIL", "isValid": false } },
+  { "id": "BENCH-SCH-005", "category": "schema", "type": "schema", "description": "Empty required value fails", "input": { "response": { "email": "" }, "requiredFields": ["email"] }, "expected": { "status": "FAIL", "isValid": false } },
+
+  { "id": "BENCH-MAL-001", "category": "malformed-output", "type": "interpret", "description": "Malformed free-text fails closed", "input": "N/A", "options": { "minScore": 80 }, "expected": { "status": "FAIL", "isValid": false } },
+  { "id": "BENCH-MAL-002", "category": "malformed-output", "type": "interpret", "description": "Object with missing fields fails by score default", "input": { "isValid": true }, "options": { "minScore": 80 }, "expected": { "status": "FAIL", "isValid": false } },
+  { "id": "BENCH-MAL-003", "category": "malformed-output", "type": "mock", "description": "Mock decision with missing required field fails", "input": { "response": { "id": 1 }, "expectedBehavior": "must include company", "options": { "minScore": 80, "requiredFields": ["id", "company.name"] } }, "expected": { "status": "FAIL", "isValid": false } },
+  { "id": "BENCH-MAL-004", "category": "malformed-output", "type": "mock", "description": "Mock decision with proper fields passes", "input": { "response": { "id": 1, "company": { "name": "Acme" } }, "expectedBehavior": "must include company", "options": { "minScore": 80, "requiredFields": ["id", "company.name"] } }, "expected": { "status": "PASS", "isValid": true } },
+  { "id": "BENCH-MAL-005", "category": "malformed-output", "type": "interpret", "description": "Lowercase fail string fails", "input": "fail response", "options": { "minScore": 80 }, "expected": { "status": "FAIL", "isValid": false } }
 ]

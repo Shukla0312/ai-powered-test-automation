@@ -5,6 +5,13 @@ import test from 'node:test';
 import APIService from '../../services/apiService.js';
 import { createSchemaDecision } from '../../utils/aiDecisionEngine.js';
 
+const selectedScenarioIds = new Set(
+  (process.env.SCENARIO_IDS || '')
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean)
+);
+
 const checkoutPaymentsScenarioPack = [
   {
     id: 'PAY-CRIT-001',
@@ -210,6 +217,9 @@ test('integration: checkout/payments scenario pack enforces risk-based invariant
 
   try {
     for (const scenario of checkoutPaymentsScenarioPack) {
+      if (selectedScenarioIds.size > 0 && !selectedScenarioIds.has(scenario.id)) {
+        continue;
+      }
       try {
         const response = await api.get(scenario.endpoint);
         assert.equal(scenario.expectedStatus, 200, `${scenario.id} expected non-200 status`);

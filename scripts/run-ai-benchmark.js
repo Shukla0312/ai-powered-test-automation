@@ -16,6 +16,7 @@ const results = fixtures.map(runBenchmarkCase);
 const passed = results.filter((item) => item.passed).length;
 const total = results.length;
 const passRate = total === 0 ? 0 : passed / total;
+const categoryRates = computeCategoryRates(results);
 
 const report = {
   generatedAt: new Date().toISOString(),
@@ -24,6 +25,7 @@ const report = {
   failed: total - passed,
   passRate,
   minimumPassRate: minPassRate,
+  categoryPassRates: categoryRates,
   results,
 };
 
@@ -39,6 +41,7 @@ const nextTrend = [
     passed,
     failed: total - passed,
     passRate,
+    categoryPassRates: categoryRates,
   },
 ].slice(-50);
 await writeFile(trendPath, JSON.stringify(nextTrend, null, 2), 'utf8');
@@ -62,6 +65,7 @@ function runBenchmarkCase(item) {
 
   return {
     id: item.id,
+    category: item.category || 'uncategorized',
     description: item.description,
     expected: item.expected,
     actual: {
@@ -72,6 +76,30 @@ function runBenchmarkCase(item) {
     },
     passed,
   };
+}
+
+function computeCategoryRates(items) {
+  const grouped = new Map();
+  for (const item of items) {
+    const key = item.category || 'uncategorized';
+    if (!grouped.has(key)) {
+      grouped.set(key, { total: 0, passed: 0 });
+    }
+    const bucket = grouped.get(key);
+    bucket.total += 1;
+    if (item.passed) bucket.passed += 1;
+  }
+
+  const result = {};
+  for (const [category, stats] of grouped.entries()) {
+    result[category] = {
+      total: stats.total,
+      passed: stats.passed,
+      failed: stats.total - stats.passed,
+      passRate: stats.total === 0 ? 0 : stats.passed / stats.total,
+    };
+  }
+  return result;
 }
 
 function evaluateCase(item) {

@@ -1,3 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="mock-tests" tests="0" failures="0" errors="0" skipped="0" time="0">
+<testsuite name="mock-tests" tests="5" failures="0" errors="0" skipped="0">
+  <testcase classname="mock-tests" name="Validate Post Response Structure" time="0.000"/>
+  <testcase classname="mock-tests" name="Validate User Response with Schema" time="0.000"/>
+  <testcase classname="mock-tests" name="API Service Error Handling" time="0.000"/>
+  <testcase classname="mock-tests" name="Batch Validation of Multiple Responses" time="0.000"/>
+  <testcase classname="mock-tests" name="Real-World User Onboarding Validation" time="0.000"/>
 </testsuite>
