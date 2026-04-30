@@ -8,6 +8,11 @@
  */
 
 import { getLLMClient } from './llmFactory.js';
+import config from '../config/index.js';
+import {
+  createMockDecision,
+  interpretAIResponse,
+} from './aiDecisionEngine.js';
 import {
   getSemanticValidationPrompt,
   getResponseComparisonPrompt,
@@ -34,7 +39,9 @@ export class SemanticValidator {
     this.minValidationScore = options.minValidationScore || 75;
     this.cache = new Map(); // Simple cache for repeated validations
     this.validationHistory = []; // Track all validations
-    this.client = getLLMClient(); // Initialize LLM client (OpenAI or Anthropic)
+    this.client = config.framework.useMockAI
+      ? null
+      : getLLMClient(); // Initialize LLM client (OpenAI or Anthropic)
   }
 
   /**
@@ -64,16 +71,20 @@ export class SemanticValidator {
       // Build validation prompt
       const prompt = getSemanticValidationPrompt(response, expectedBehavior, schema);
 
-      // Get LLM validation result using configured provider
-      const validationResult = await this.client.getJSONCompletion(prompt, {
-        required: ['isValid', 'validationScore', 'issues'],
-      });
+      // Get LLM validation result using configured provider, then let the
+      // decision engine normalize pass/fail behavior.
+      const aiResult = config.framework.useMockAI
+        ? createMockDecision(response, expectedBehavior, { minScore })
+        : await this.client.getJSONCompletion(prompt, {
+            required: ['isValid', 'validationScore', 'issues'],
+          });
+
+      const validationResult = interpretAIResponse(aiResult, { minScore });
 
       // Enhance result with metadata
       const result = {
         ...validationResult,
-        isValid:
-          validationResult.isValid && validationResult.validationScore >= minScore,
+        isValid: validationResult.isValid,
         testName,
         timestamp: new Date().toISOString(),
       };

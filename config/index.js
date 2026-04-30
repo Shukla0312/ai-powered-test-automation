@@ -11,7 +11,13 @@ dotenv.config();
  * Configuration schema - centralizes all runtime settings
  * Ensures type safety and validates required environment variables
  */
-const config = {
+export const config = {
+  // Framework behavior
+  framework: {
+    retries: parseInt(process.env.MAX_RETRIES) || 3,
+    useMockAI: process.env.USE_MOCK_AI === 'true',
+  },
+
   // LLM Provider Selection
   llm: {
     provider: process.env.LLM_PROVIDER || 'openai', // 'openai' or 'anthropic'
@@ -55,13 +61,21 @@ const config = {
  * Validate critical configuration on startup
  */
 function validateConfig() {
-  if (config.llm.provider === 'openai' && !config.openai.apiKey) {
+  if (
+    config.llm.provider === 'openai' &&
+    !config.framework.useMockAI &&
+    !config.openai.apiKey
+  ) {
     throw new Error(
       'OPENAI_API_KEY environment variable is required for OpenAI provider.'
     );
   }
 
-  if (config.llm.provider === 'anthropic' && !config.anthropic.apiKey) {
+  if (
+    config.llm.provider === 'anthropic' &&
+    !config.framework.useMockAI &&
+    !config.anthropic.apiKey
+  ) {
     throw new Error(
       'ANTHROPIC_API_KEY environment variable is required for Anthropic provider.'
     );

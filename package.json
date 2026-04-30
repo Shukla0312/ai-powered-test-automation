@@ -5,9 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "test:watch": "npm test -- --watch",
-    "test:coverage": "npm test -- --coverage",
+    "test": "node tests/ai-validation.test.js",
+    "test:mock": "USE_MOCK_AI=true node tests/ai-validation.test.js",
     "lint": "eslint .",
     "dev": "node tests/ai-validation.test.js"
   },
