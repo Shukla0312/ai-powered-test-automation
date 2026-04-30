@@ -178,7 +178,7 @@ export class TestSuite {
     try {
       // Attempt to fetch non-existent resource
       try {
-        await this.apiService.get('/posts/99999');
+        await this.apiService.get('/posts/99999', { expectedStatus: 404 });
         console.log('✗ FAIL - Should have raised an error for non-existent resource');
         this.results.failed++;
       } catch (error) {

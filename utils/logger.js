@@ -1,6 +1,9 @@
 export function logAIValidation(decision) {
+  const status = decision.status || (decision.isValid ? 'PASS' : 'FAIL');
+  const reason = decision.reason || 'No reason provided';
+
   console.log(
-    `[AI VALIDATION] ${decision.status} - ${decision.reason}`
+    `[AI VALIDATION] ${status} - ${reason}`
   );
 }
 

@@ -6,6 +6,26 @@ Production-minded API validation framework that combines deterministic HTTP auto
 
 This project is built as a portfolio-quality SDET framework with modular services, provider abstraction, retry logic, validation caching, CI support, and realistic test scenarios.
 
+## ⚡ Quick Demo
+
+```bash
+npm test
+```
+
+```text
+[TEST STEP] Running: Validate User Response with Schema
+[AI VALIDATION] PASS - Response contains valid structure and required fields
+Reason: Response contains identity, contact, and company information.
+
+TEST REPORT
+Total Tests: 5
+Passed: 5
+Failed: 0
+All tests passed!
+```
+
+In five seconds, this shows the core value: the framework makes an API call, asks AI to validate the response semantically, prints the decision, and explains the reason.
+
 ## What This Tests
 
 The current suite uses the public JSONPlaceholder API:
@@ -53,7 +73,18 @@ utils/aiDecisionEngine.js
 [AI VALIDATION] PASS - reason
 ```
 
-## AI vs Traditional Testing
+## ⚖️ Traditional vs AI Testing
+
+```javascript
+// Traditional: brittle exact-value assertion
+expect(response.email).toBe('abc@test.com');
+
+// AI-based: validates business intent and response quality
+await validator.validateResponse(
+  response,
+  'User profile should include valid contact and company details'
+);
+```
 
 | Area | Traditional API Test | AI-Powered Validation |
 | --- | --- | --- |
@@ -63,7 +94,7 @@ utils/aiDecisionEngine.js
 | Best use | Contracts, status codes, required fields | Data quality, completeness, real-world readiness |
 | Risk | Low ambiguity | Requires controls for nondeterminism |
 
-The framework keeps both approaches: deterministic API handling plus AI validation for meaning and completeness.
+The framework keeps both approaches: deterministic checks handle contracts and status codes, while AI validation handles meaning, completeness, and workflow readiness.
 
 ## Project Structure
 
@@ -94,7 +125,7 @@ ai-powered-test-automation/
 └── README.md
 ```
 
-## Configuration
+## ⚙️ Configuration
 
 Runtime configuration is centralized in `config/config.js`.
 
@@ -128,6 +159,13 @@ RETRY_DELAY_MS=1000
 FLAKY_TEST_THRESHOLD=0.3
 LOG_LEVEL=info
 ```
+
+Configuration controls:
+
+- Retry count: `MAX_RETRIES` controls API/provider retry attempts.
+- Mock vs real AI mode: `USE_MOCK_AI=true` runs without paid LLM calls; `false` uses the configured provider.
+- Timeout: `API_TIMEOUT` controls HTTP request timeout.
+- Base URL: `API_BASE_URL` points the suite to the API under test.
 
 Use `USE_MOCK_AI=true` for local smoke tests or CI runs where you want framework validation without using paid LLM calls.
 
@@ -164,7 +202,7 @@ Run without real AI cost:
 npm run test:mock
 ```
 
-## Sample Execution
+## 📸 Sample Execution
 
 Command:
 
@@ -193,12 +231,11 @@ Failed: 0
 All tests passed!
 ```
 
-## Visual Proof
-
-For portfolio presentation, include one of these in your repository:
+Screenshot or log proof:
 
 - A terminal screenshot showing `npm test` passing.
 - A checked-in sanitized log file under `docs/sample-output.txt`.
+- Placeholder if no screenshot is committed yet: `docs/sample-output.txt` provides copy/paste-safe proof of execution.
 
 Suggested command for generating a clean log:
 
@@ -263,7 +300,7 @@ MAX_RETRIES
 RETRY_DELAY_MS
 ```
 
-## Limitations and Mitigation
+## ⚠️ Limitations
 
 | Limitation | Risk | Mitigation |
 | --- | --- | --- |
@@ -272,6 +309,14 @@ RETRY_DELAY_MS
 | Cost | Real LLM calls cost money | Use `USE_MOCK_AI=true` for smoke tests and reserve real AI runs for targeted suites |
 | External API dependency | Public API/network failures can break runs | Configurable base URL, timeout, retry count, and mock AI mode |
 | AI is not a contract validator | It may miss strict schema issues | Keep deterministic checks for status codes and required fields alongside AI validation |
+
+## ✅ Mitigation
+
+- Retry with exponential backoff for rate limits, timeouts, and transient provider failures.
+- Response caching to avoid repeated AI validation for identical response/expectation pairs.
+- Sequential execution for batch AI validation to control cost and reduce throttling risk.
+- Deterministic schema gates before AI calls for required-field failures.
+- Mock AI mode for pull requests, smoke tests, and low-cost CI validation.
 
 ## Extensibility
 

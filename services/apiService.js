@@ -176,6 +176,7 @@ export class APIService {
         statusCode: error.response?.status,
         duration,
         success: false,
+        expectedFailure: options.expectedStatus === error.response?.status,
         errorMessage: error.message,
         retryCount,
         willRetry: shouldRetry,
@@ -242,6 +243,10 @@ export class APIService {
 
     if (log.success) {
       console.log(`✓ ${log.method} ${log.endpoint} [${log.statusCode}] ${log.duration}ms`);
+    } else if (log.expectedFailure) {
+      console.log(
+        `✓ ${log.method} ${log.endpoint} [${log.statusCode}] ${log.duration}ms - expected negative response`
+      );
     } else {
       console.error(
         `✗ ${log.method} ${log.endpoint} [${log.statusCode || 'timeout'}] ${log.duration}ms - ${log.errorMessage}`
