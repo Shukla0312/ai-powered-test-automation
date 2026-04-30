@@ -4,13 +4,13 @@
   <testcase classname="unit-tests" name="interpretAIResponse returns FAIL when score is below threshold" time="0.000"/>
   <testcase classname="unit-tests" name="createSchemaDecision rejects missing required fields" time="0.000"/>
   <testcase classname="unit-tests" name="createMockDecision supports nested required field paths" time="0.000"/>
-  <testcase classname="unit-tests" name="APIService retries retryable errors and succeeds" time="0.003"/>
-  <testcase classname="unit-tests" name="APIService does not retry non-retryable 4xx errors" time="0.000"/>
-  <testcase classname="unit-tests" name="APIService logs expected negative responses as expected failures" time="0.000"/>
-  <testcase classname="unit-tests" name="APIService throws after retry exhaustion on retryable errors" time="0.000"/>
-  <testcase classname="unit-tests" name="APIService retries timeout errors and surfaces timeout metadata" time="0.000"/>
-  <testcase classname="unit-tests" name="parseJSONFromText parses plain JSON payload" time="0.001"/>
-  <testcase classname="unit-tests" name="parseJSONFromText parses markdown fenced JSON" time="0.000"/>
+  <testcase classname="unit-tests" name="APIService retries retryable errors and succeeds" time="0.012"/>
+  <testcase classname="unit-tests" name="APIService does not retry non-retryable 4xx errors" time="0.002"/>
+  <testcase classname="unit-tests" name="APIService logs expected negative responses as expected failures" time="0.002"/>
+  <testcase classname="unit-tests" name="APIService throws after retry exhaustion on retryable errors" time="0.006"/>
+  <testcase classname="unit-tests" name="APIService retries timeout errors and surfaces timeout metadata" time="0.002"/>
+  <testcase classname="unit-tests" name="parseJSONFromText parses plain JSON payload" time="0.003"/>
+  <testcase classname="unit-tests" name="parseJSONFromText parses markdown fenced JSON" time="0.001"/>
   <testcase classname="unit-tests" name="parseJSONFromText extracts JSON wrapped with explanation text" time="0.000"/>
   <testcase classname="unit-tests" name="parseJSONFromText throws on invalid payload without JSON object" time="0.000"/>
 </testsuite>

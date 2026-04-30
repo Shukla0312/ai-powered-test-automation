@@ -2,8 +2,8 @@
   "mode": "node-test-events",
   "command": "node:test run tests/unit",
   "suiteName": "unit-tests",
-  "startedAt": "2026-04-30T11:55:27.361Z",
-  "finishedAt": "2026-04-30T11:55:27.591Z",
+  "startedAt": "2026-04-30T12:02:26.545Z",
+  "finishedAt": "2026-04-30T12:02:26.872Z",
   "total": 13,
   "passed": 13,
   "failed": 0,
@@ -13,67 +13,67 @@
     {
       "name": "interpretAIResponse returns PASS for valid structured AI output",
       "status": "passed",
-      "durationMs": 0.722792
+      "durationMs": 0.986708
     },
     {
       "name": "interpretAIResponse returns FAIL when score is below threshold",
       "status": "passed",
-      "durationMs": 0.076
+      "durationMs": 0.076333
     },
     {
       "name": "createSchemaDecision rejects missing required fields",
       "status": "passed",
-      "durationMs": 0.394416
+      "durationMs": 0.387833
     },
     {
       "name": "createMockDecision supports nested required field paths",
       "status": "passed",
-      "durationMs": 0.106209
+      "durationMs": 0.09875
     },
     {
       "name": "APIService retries retryable errors and succeeds",
       "status": "passed",
-      "durationMs": 2.559791
+      "durationMs": 11.6655
     },
     {
       "name": "APIService does not retry non-retryable 4xx errors",
       "status": "passed",
-      "durationMs": 0.397666
+      "durationMs": 1.720375
     },
     {
       "name": "APIService logs expected negative responses as expected failures",
       "status": "passed",
-      "durationMs": 0.204792
+      "durationMs": 1.796417
     },
     {
       "name": "APIService throws after retry exhaustion on retryable errors",
       "status": "passed",
-      "durationMs": 0.405083
+      "durationMs": 5.617292
     },
     {
       "name": "APIService retries timeout errors and surfaces timeout metadata",
       "status": "passed",
-      "durationMs": 0.302916
+      "durationMs": 1.67025
     },
     {
       "name": "parseJSONFromText parses plain JSON payload",
       "status": "passed",
-      "durationMs": 0.872042
+      "durationMs": 2.721417
     },
     {
       "name": "parseJSONFromText parses markdown fenced JSON",
       "status": "passed",
-      "durationMs": 0.400375
+      "durationMs": 0.955709
     },
     {
       "name": "parseJSONFromText extracts JSON wrapped with explanation text",
       "status": "passed",
-      "durationMs": 0.115625
+      "durationMs": 0.269542
     },
     {
       "name": "parseJSONFromText throws on invalid payload without JSON object",
       "status": "passed",
-      "durationMs": 0.198709
+      "durationMs": 0.406875
     }
   ],
   "stdout": "",

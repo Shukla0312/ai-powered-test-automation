@@ -167,7 +167,7 @@ npm run orchestrate:local
 - Prompt isolation supports domain-specific validation packs.
 - CI workflow (`.github/workflows/test.yml`) enables repeatable PR checks.
 - Reliability behavior is unit-tested for decision logic and HTTP retry/error paths.
-- CI publishes machine-ingestible artifacts in JSON and JUnit XML (`reports/*-report.json`, `reports/*-report.xml`) for triage and CI integration.
+- CI publishes machine-ingestible artifacts in JSON, JUnit XML, and HTML (`reports/*-report.json`, `reports/*-report.xml`, `reports/*-report.html`) for triage and CI integration.
 - Unit/integration reports use first-class structured test events (Node test runner API) to generate XML.
 - Orchestration executes scenario-ID targeted shards (`SCENARIO_IDS`) instead of rerunning full packs per queue item.
 

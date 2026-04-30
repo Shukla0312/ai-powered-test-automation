@@ -38,5 +38,71 @@
         "passRate": 1
       }
     }
+  },
+  {
+    "timestamp": "2026-04-30T12:00:23.884Z",
+    "total": 20,
+    "passed": 20,
+    "failed": 0,
+    "passRate": 1,
+    "categoryPassRates": {
+      "threshold": {
+        "total": 5,
+        "passed": 5,
+        "failed": 0,
+        "passRate": 1
+      },
+      "ambiguity": {
+        "total": 5,
+        "passed": 5,
+        "failed": 0,
+        "passRate": 1
+      },
+      "schema": {
+        "total": 5,
+        "passed": 5,
+        "failed": 0,
+        "passRate": 1
+      },
+      "malformed-output": {
+        "total": 5,
+        "passed": 5,
+        "failed": 0,
+        "passRate": 1
+      }
+    }
+  },
+  {
+    "timestamp": "2026-04-30T12:01:01.480Z",
+    "total": 20,
+    "passed": 20,
+    "failed": 0,
+    "passRate": 1,
+    "categoryPassRates": {
+      "threshold": {
+        "total": 5,
+        "passed": 5,
+        "failed": 0,
+        "passRate": 1
+      },
+      "ambiguity": {
+        "total": 5,
+        "passed": 5,
+        "failed": 0,
+        "passRate": 1
+      },
+      "schema": {
+        "total": 5,
+        "passed": 5,
+        "failed": 0,
+        "passRate": 1
+      },
+      "malformed-output": {
+        "total": 5,
+        "passed": 5,
+        "failed": 0,
+        "passRate": 1
+      }
+    }
   }
 ]

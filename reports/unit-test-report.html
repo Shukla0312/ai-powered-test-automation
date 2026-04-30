@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>unit-tests Report</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; color: #111; }
+    h1 { margin-bottom: 8px; }
+    .meta { margin: 8px 0 16px; }
+    .ok { color: #0a7f2e; font-weight: 700; }
+    .fail { color: #c5221f; font-weight: 700; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background: #f5f5f5; }
+  </style>
+</head>
+<body>
+  <h1>unit-tests Report</h1>
+  <div class="meta">Total: 13 | Passed: 13 | Failed: 0 | Success: true</div>
+  <table>
+    <thead><tr><th>Test Case</th><th>Status</th><th>Duration</th><th>Message</th></tr></thead>
+    <tbody><tr><td>interpretAIResponse returns PASS for valid structured AI output</td><td class="ok">PASS</td><td>0.986708 ms</td><td></td></tr><tr><td>interpretAIResponse returns FAIL when score is below threshold</td><td class="ok">PASS</td><td>0.076333 ms</td><td></td></tr><tr><td>createSchemaDecision rejects missing required fields</td><td class="ok">PASS</td><td>0.387833 ms</td><td></td></tr><tr><td>createMockDecision supports nested required field paths</td><td class="ok">PASS</td><td>0.09875 ms</td><td></td></tr><tr><td>APIService retries retryable errors and succeeds</td><td class="ok">PASS</td><td>11.6655 ms</td><td></td></tr><tr><td>APIService does not retry non-retryable 4xx errors</td><td class="ok">PASS</td><td>1.720375 ms</td><td></td></tr><tr><td>APIService logs expected negative responses as expected failures</td><td class="ok">PASS</td><td>1.796417 ms</td><td></td></tr><tr><td>APIService throws after retry exhaustion on retryable errors</td><td class="ok">PASS</td><td>5.617292 ms</td><td></td></tr><tr><td>APIService retries timeout errors and surfaces timeout metadata</td><td class="ok">PASS</td><td>1.67025 ms</td><td></td></tr><tr><td>parseJSONFromText parses plain JSON payload</td><td class="ok">PASS</td><td>2.721417 ms</td><td></td></tr><tr><td>parseJSONFromText parses markdown fenced JSON</td><td class="ok">PASS</td><td>0.955709 ms</td><td></td></tr><tr><td>parseJSONFromText extracts JSON wrapped with explanation text</td><td class="ok">PASS</td><td>0.269542 ms</td><td></td></tr><tr><td>parseJSONFromText throws on invalid payload without JSON object</td><td class="ok">PASS</td><td>0.406875 ms</td><td></td></tr></tbody>
+  </table>
+</body>
+</html>
