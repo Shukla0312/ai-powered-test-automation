@@ -25,6 +25,11 @@ coverage/
 dist/
 build/
 
+# Generated reports
+reports/ai-benchmark-report.json
+reports/ai-benchmark-trend.json
+reports/*.html
+
 # Logs
 logs/
 *.log

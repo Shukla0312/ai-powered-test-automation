@@ -2,10 +2,10 @@
   "mode": "node-test-events",
   "command": "node:test run tests/integration",
   "suiteName": "integration-tests",
-  "startedAt": "2026-04-30T12:27:52.505Z",
-  "finishedAt": "2026-04-30T12:27:53.852Z",
-  "total": 2,
-  "passed": 2,
+  "startedAt": "2026-04-30T13:30:36.222Z",
+  "finishedAt": "2026-04-30T13:30:40.176Z",
+  "total": 11,
+  "passed": 11,
   "failed": 0,
   "success": true,
   "exitCode": 0,
@@ -13,12 +13,57 @@
     {
       "name": "integration: checkout/payments scenario pack enforces risk-based invariants",
       "status": "passed",
-      "durationMs": 18.563458
+      "durationMs": 17.649875
     },
     {
       "name": "integration: validates auth, versioning, pagination, and partial failure recovery",
       "status": "passed",
-      "durationMs": 1142.315416
+      "durationMs": 1017.235708
+    },
+    {
+      "name": "RestCountries happy path validation",
+      "status": "passed",
+      "durationMs": 986.033084
+    },
+    {
+      "name": "RestCountries missing critical field should fail",
+      "status": "passed",
+      "durationMs": 302.268375
+    },
+    {
+      "name": "RestCountries nested field validation",
+      "status": "passed",
+      "durationMs": 370.314
+    },
+    {
+      "name": "RestCountries corrupted nested data should fail",
+      "status": "passed",
+      "durationMs": 296.785459
+    },
+    {
+      "name": "RestCountries semantic population validation should fail on invalid value",
+      "status": "passed",
+      "durationMs": 306.318709
+    },
+    {
+      "name": "RestCountries empty response scenario should fail",
+      "status": "passed",
+      "durationMs": 1.147084
+    },
+    {
+      "name": "RestCountries unexpected structure should fail",
+      "status": "passed",
+      "durationMs": 0.691417
+    },
+    {
+      "name": "RestCountries partial data scenario should fail",
+      "status": "passed",
+      "durationMs": 1.126125
+    },
+    {
+      "name": "RestCountries combined realistic corruption should fail",
+      "status": "passed",
+      "durationMs": 320.092208
     }
   ],
   "stdout": "",

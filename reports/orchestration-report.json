@@ -1,7 +1,7 @@
 {
   "profile": "pr",
   "concurrency": 2,
-  "generatedAt": "2026-04-30T12:01:05.802Z",
+  "generatedAt": "2026-04-30T13:30:41.105Z",
   "shardCount": 4,
   "results": [
     {
@@ -14,11 +14,11 @@
         "PAY-HIGH-002"
       ],
       "command": "USE_MOCK_AI=true SCENARIO_IDS=PAY-HIGH-002 node --test tests/integration/checkoutPaymentsScenario.test.js",
-      "startedAt": "2026-04-30T12:01:05.526Z",
-      "finishedAt": "2026-04-30T12:01:05.665Z",
+      "startedAt": "2026-04-30T13:30:40.793Z",
+      "finishedAt": "2026-04-30T13:30:40.960Z",
       "success": true,
       "exitCode": 0,
-      "stdout": "TAP version 13\n# ✗ GET /v1/checkout/insufficient-funds [402] 9ms - Request failed with status code 402\n# Subtest: integration: checkout/payments scenario pack enforces risk-based invariants\nok 1 - integration: checkout/payments scenario pack enforces risk-based invariants\n  ---\n  duration_ms: 12.306542\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 106.418\n",
+      "stdout": "TAP version 13\n# ✗ GET /v1/checkout/insufficient-funds [402] 12ms - Request failed with status code 402\n# Subtest: integration: checkout/payments scenario pack enforces risk-based invariants\nok 1 - integration: checkout/payments scenario pack enforces risk-based invariants\n  ---\n  duration_ms: 15.202\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 118.901334\n",
       "stderr": ""
     },
     {
@@ -31,11 +31,11 @@
         "PAY-CRIT-001"
       ],
       "command": "USE_MOCK_AI=true SCENARIO_IDS=PAY-CRIT-001 node --test tests/integration/checkoutPaymentsScenario.test.js",
-      "startedAt": "2026-04-30T12:01:05.524Z",
-      "finishedAt": "2026-04-30T12:01:05.666Z",
+      "startedAt": "2026-04-30T13:30:40.790Z",
+      "finishedAt": "2026-04-30T13:30:40.962Z",
       "success": true,
       "exitCode": 0,
-      "stdout": "TAP version 13\n# ✓ GET /v1/checkout/authorize-and-capture [200] 9ms\n# Subtest: integration: checkout/payments scenario pack enforces risk-based invariants\nok 1 - integration: checkout/payments scenario pack enforces risk-based invariants\n  ---\n  duration_ms: 11.929042\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 106.455125\n",
+      "stdout": "TAP version 13\n# ✓ GET /v1/checkout/authorize-and-capture [200] 13ms\n# Subtest: integration: checkout/payments scenario pack enforces risk-based invariants\nok 1 - integration: checkout/payments scenario pack enforces risk-based invariants\n  ---\n  duration_ms: 16.936959\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 121.986\n",
       "stderr": ""
     },
     {
@@ -49,11 +49,11 @@
         "PAY-CRIT-006"
       ],
       "command": "USE_MOCK_AI=true SCENARIO_IDS=PAY-CRIT-004,PAY-CRIT-006 node --test tests/integration/checkoutPaymentsScenario.test.js",
-      "startedAt": "2026-04-30T12:01:05.665Z",
-      "finishedAt": "2026-04-30T12:01:05.802Z",
+      "startedAt": "2026-04-30T13:30:40.960Z",
+      "finishedAt": "2026-04-30T13:30:41.103Z",
       "success": true,
       "exitCode": 0,
-      "stdout": "TAP version 13\n# ✗ GET /v1/checkout/idempotency-abuse [409] 10ms - Request failed with status code 409\n# ✗ GET /v1/checkout/unauthorized-tenant [403] 2ms - Request failed with status code 403\n# Subtest: integration: checkout/payments scenario pack enforces risk-based invariants\nok 1 - integration: checkout/payments scenario pack enforces risk-based invariants\n  ---\n  duration_ms: 13.895542\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 105.538\n",
+      "stdout": "TAP version 13\n# ✗ GET /v1/checkout/idempotency-abuse [409] 9ms - Request failed with status code 409\n# ✗ GET /v1/checkout/unauthorized-tenant [403] 2ms - Request failed with status code 403\n# Subtest: integration: checkout/payments scenario pack enforces risk-based invariants\nok 1 - integration: checkout/payments scenario pack enforces risk-based invariants\n  ---\n  duration_ms: 13.936834\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 110.746\n",
       "stderr": ""
     },
     {
@@ -67,11 +67,11 @@
         "PAY-HIGH-007"
       ],
       "command": "USE_MOCK_AI=true SCENARIO_IDS=PAY-HIGH-005,PAY-HIGH-007 node --test tests/integration/checkoutPaymentsScenario.test.js",
-      "startedAt": "2026-04-30T12:01:05.666Z",
-      "finishedAt": "2026-04-30T12:01:05.802Z",
+      "startedAt": "2026-04-30T13:30:40.962Z",
+      "finishedAt": "2026-04-30T13:30:41.105Z",
       "success": true,
       "exitCode": 0,
-      "stdout": "TAP version 13\n# ✗ GET /v1/checkout/currency-mismatch [422] 9ms - Request failed with status code 422\n# ✗ GET /v1/checkout/replay-attempt [409] 1ms - Request failed with status code 409\n# Subtest: integration: checkout/payments scenario pack enforces risk-based invariants\nok 1 - integration: checkout/payments scenario pack enforces risk-based invariants\n  ---\n  duration_ms: 13.5415\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 105.364958\n",
+      "stdout": "TAP version 13\n# ✗ GET /v1/checkout/currency-mismatch [422] 9ms - Request failed with status code 422\n# ✗ GET /v1/checkout/replay-attempt [409] 1ms - Request failed with status code 409\n# Subtest: integration: checkout/payments scenario pack enforces risk-based invariants\nok 1 - integration: checkout/payments scenario pack enforces risk-based invariants\n  ---\n  duration_ms: 14.106083\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 112.488083\n",
       "stderr": ""
     }
   ],

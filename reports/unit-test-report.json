@@ -2,10 +2,10 @@
   "mode": "node-test-events",
   "command": "node:test run tests/unit",
   "suiteName": "unit-tests",
-  "startedAt": "2026-04-30T12:27:45.746Z",
-  "finishedAt": "2026-04-30T12:27:52.371Z",
-  "total": 20,
-  "passed": 20,
+  "startedAt": "2026-04-30T13:30:29.503Z",
+  "finishedAt": "2026-04-30T13:30:36.100Z",
+  "total": 21,
+  "passed": 21,
   "failed": 0,
   "success": true,
   "exitCode": 0,
@@ -13,102 +13,107 @@
     {
       "name": "interpretAIResponse returns PASS for valid structured AI output",
       "status": "passed",
-      "durationMs": 0.89075
+      "durationMs": 0.943042
     },
     {
       "name": "interpretAIResponse returns FAIL when score is below threshold",
       "status": "passed",
-      "durationMs": 0.089834
+      "durationMs": 0.135709
     },
     {
       "name": "createSchemaDecision rejects missing required fields",
       "status": "passed",
-      "durationMs": 0.709
+      "durationMs": 0.483166
     },
     {
       "name": "createMockDecision supports nested required field paths",
       "status": "passed",
-      "durationMs": 0.234625
+      "durationMs": 0.13875
     },
     {
       "name": "parseAIResponse parses valid JSON strings",
       "status": "passed",
-      "durationMs": 0.713834
+      "durationMs": 0.926042
     },
     {
       "name": "parseAIResponse returns fallback for malformed JSON",
       "status": "passed",
-      "durationMs": 0.127375
+      "durationMs": 0.166709
+    },
+    {
+      "name": "parseAIResponse parses markdown fenced JSON payload",
+      "status": "passed",
+      "durationMs": 0.07675
     },
     {
       "name": "SemanticValidator fails safely on malformed AI response",
       "status": "passed",
-      "durationMs": 4.422333
+      "durationMs": 4.103666
     },
     {
       "name": "SemanticValidator rejects missing required fields before AI call",
       "status": "passed",
-      "durationMs": 0.468667
+      "durationMs": 0.469292
     },
     {
       "name": "APIService retries retryable errors and succeeds",
       "status": "passed",
-      "durationMs": 2.491333
+      "durationMs": 2.489792
     },
     {
       "name": "APIService does not retry non-retryable 4xx errors",
       "status": "passed",
-      "durationMs": 0.387042
+      "durationMs": 0.446667
     },
     {
       "name": "APIService logs expected negative responses as expected failures",
       "status": "passed",
-      "durationMs": 0.190875
+      "durationMs": 0.2615
     },
     {
       "name": "APIService throws after retry exhaustion on retryable errors",
       "status": "passed",
-      "durationMs": 0.391583
+      "durationMs": 0.460458
     },
     {
       "name": "APIService retries timeout errors and surfaces timeout metadata",
       "status": "passed",
-      "durationMs": 0.290459
+      "durationMs": 0.321875
     },
     {
       "name": "APIService retries transient failure and succeeds",
       "status": "passed",
-      "durationMs": 3050.769083
+      "durationMs": 3052.4785
     },
     {
       "name": "APIService handles auth + pagination and detects partial fields",
       "status": "passed",
-      "durationMs": 18.02275
+      "durationMs": 17.829875
     },
     {
       "name": "APIService surfaces API error after retries exhausted",
       "status": "passed",
-      "durationMs": 3061.202834
+      "durationMs": 3029.668583
     },
     {
       "name": "parseJSONFromText parses plain JSON payload",
       "status": "passed",
-      "durationMs": 0.992792
+      "durationMs": 1.080792
     },
     {
       "name": "parseJSONFromText parses markdown fenced JSON",
       "status": "passed",
-      "durationMs": 0.452375
+      "durationMs": 0.472709
     },
     {
       "name": "parseJSONFromText extracts JSON wrapped with explanation text",
       "status": "passed",
-      "durationMs": 0.147667
+      "durationMs": 0.142333
     },
     {
       "name": "parseJSONFromText throws on invalid payload without JSON object",
       "status": "passed",
-      "durationMs": 0.239583
+      "durationMs": 0.235
     }
   ],
   "stdout": "",

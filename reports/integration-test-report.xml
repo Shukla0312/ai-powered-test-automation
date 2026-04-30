@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="integration-tests" tests="2" failures="0" errors="0" skipped="0">
-  <testcase classname="integration-tests" name="integration: checkout/payments scenario pack enforces risk-based invariants" time="0.019"/>
-  <testcase classname="integration-tests" name="integration: validates auth, versioning, pagination, and partial failure recovery" time="1.142"/>
+<testsuite name="integration-tests" tests="11" failures="0" errors="0" skipped="0">
+  <testcase classname="integration-tests" name="integration: checkout/payments scenario pack enforces risk-based invariants" time="0.018"/>
+  <testcase classname="integration-tests" name="integration: validates auth, versioning, pagination, and partial failure recovery" time="1.017"/>
+  <testcase classname="integration-tests" name="RestCountries happy path validation" time="0.986"/>
+  <testcase classname="integration-tests" name="RestCountries missing critical field should fail" time="0.302"/>
+  <testcase classname="integration-tests" name="RestCountries nested field validation" time="0.370"/>
+  <testcase classname="integration-tests" name="RestCountries corrupted nested data should fail" time="0.297"/>
+  <testcase classname="integration-tests" name="RestCountries semantic population validation should fail on invalid value" time="0.306"/>
+  <testcase classname="integration-tests" name="RestCountries empty response scenario should fail" time="0.001"/>
+  <testcase classname="integration-tests" name="RestCountries unexpected structure should fail" time="0.001"/>
+  <testcase classname="integration-tests" name="RestCountries partial data scenario should fail" time="0.001"/>
+  <testcase classname="integration-tests" name="RestCountries combined realistic corruption should fail" time="0.320"/>
 </testsuite>
