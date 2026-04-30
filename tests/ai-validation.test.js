@@ -14,7 +14,7 @@ import { pathToFileURL } from 'url';
 import SemanticValidator from '../utils/aiValidator.js';
 import APIService from '../services/apiService.js';
 import config from '../config/index.js';
-import { logAIValidation, logStep, logSummary } from '../utils/logger.js';
+import { logAIValidation, logStep, logSummary, logTestResult } from '../utils/logger.js';
 
 /**
  * Test Suite: AI Semantic Validation
@@ -75,12 +75,18 @@ export class TestSuite {
 
       // Step 4: Assert validation passed
       if (validationResult.isValid) {
-        console.log(`✓ PASS - Validation Score: ${validationResult.validationScore}/100`);
-        console.log(`Reason: ${validationResult.reason}`);
+        logTestResult({
+          status: 'PASS',
+          score: validationResult.validationScore,
+          reason: validationResult.reason,
+        });
         this.results.passed++;
       } else {
-        console.log(`✗ FAIL - Validation Score: ${validationResult.validationScore}/100`);
-        console.log(`Reason: ${validationResult.reason}`);
+        logTestResult({
+          status: 'FAIL',
+          score: validationResult.validationScore,
+          reason: validationResult.reason,
+        });
         console.log('Issues:', validationResult.issues);
         this.results.failed++;
       }
@@ -139,12 +145,18 @@ export class TestSuite {
       );
 
       if (validationResult.isValid) {
-        console.log(`✓ PASS - Validation Score: ${validationResult.validationScore}/100`);
-        console.log(`Reason: ${validationResult.reason}`);
+        logTestResult({
+          status: 'PASS',
+          score: validationResult.validationScore,
+          reason: validationResult.reason,
+        });
         this.results.passed++;
       } else {
-        console.log(`✗ FAIL - Validation Score: ${validationResult.validationScore}/100`);
-        console.log(`Reason: ${validationResult.reason}`);
+        logTestResult({
+          status: 'FAIL',
+          score: validationResult.validationScore,
+          reason: validationResult.reason,
+        });
         console.log('Issues:', validationResult.issues);
         this.results.failed++;
       }
@@ -179,13 +191,17 @@ export class TestSuite {
       // Attempt to fetch non-existent resource
       try {
         await this.apiService.get('/posts/99999', { expectedStatus: 404 });
-        console.log('✗ FAIL - Should have raised an error for non-existent resource');
+        logTestResult({
+          status: 'FAIL',
+          reason: 'Should have raised an error for non-existent resource',
+        });
         this.results.failed++;
       } catch (error) {
         if (error instanceof Error && error.message.includes('failed')) {
-          console.log(
-            `✓ PASS - Error handled correctly: ${error.statusCode}`
-          );
+          logTestResult({
+            status: 'PASS',
+            reason: `Error handled correctly: ${error.statusCode}`,
+          });
           this.results.passed++;
         } else {
           throw error;
@@ -246,10 +262,16 @@ export class TestSuite {
       );
 
       if (allPassed) {
-        console.log(`✓ PASS - All batch validations passed`);
+        logTestResult({
+          status: 'PASS',
+          reason: 'All batch validations passed',
+        });
         this.results.passed++;
       } else {
-        console.log(`✗ FAIL - Some batch validations failed`);
+        logTestResult({
+          status: 'FAIL',
+          reason: 'Some batch validations failed',
+        });
         this.results.failed++;
       }
 
@@ -322,7 +344,10 @@ export class TestSuite {
           }
         );
 
-        console.log('✗ FAIL - Missing email edge case should have failed');
+        logTestResult({
+          status: 'FAIL',
+          reason: 'Missing email edge case should have failed',
+        });
         this.results.failed++;
         this.results.tests.push({
           name: testName,
@@ -338,8 +363,11 @@ export class TestSuite {
         });
       }
 
-      console.log(`✓ PASS - CRM onboarding score: ${validResult.validationScore}/100`);
-      console.log(`Reason: ${validResult.reason}`);
+      logTestResult({
+        status: 'PASS',
+        score: validResult.validationScore,
+        reason: validResult.reason,
+      });
       this.results.passed++;
       this.results.tests.push({
         name: testName,

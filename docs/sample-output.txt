@@ -1,26 +1,53 @@
 > npm run test:mock
 
 [TEST STEP] Running: Validate Post Response Structure
-[AI VALIDATION] PASS - Mock AI confirmed response satisfies the validation intent
-PASS - Validation Score: 90/100
+[AI VALIDATION]
+Status : PASS
+Reason : Mock AI confirmed response satisfies the validation intent
+[TEST RESULT]
+Status : PASS
+Score  : 90/100
+Reason : Mock AI confirmed response satisfies the validation intent
 
 [TEST STEP] Running: Validate User Response with Schema
-[AI VALIDATION] PASS - Mock AI confirmed response satisfies the validation intent
-PASS - Validation Score: 90/100
+[AI VALIDATION]
+Status : PASS
+Reason : Mock AI confirmed response satisfies the validation intent
+[TEST RESULT]
+Status : PASS
+Score  : 90/100
+Reason : Mock AI confirmed response satisfies the validation intent
 
 [TEST STEP] Running: API Service Error Handling
-PASS - Error handled correctly: 404
+[TEST RESULT]
+Status : PASS
+Reason : Error handled correctly: 404
 
 [TEST STEP] Running: Batch Validation of Multiple Responses
-[AI VALIDATION] PASS - Mock AI confirmed response satisfies the validation intent
-[AI VALIDATION] PASS - Mock AI confirmed response satisfies the validation intent
-PASS - All batch validations passed
+[AI VALIDATION]
+Status : PASS
+Reason : Mock AI confirmed response satisfies the validation intent
+[AI VALIDATION]
+Status : PASS
+Reason : Mock AI confirmed response satisfies the validation intent
+[TEST RESULT]
+Status : PASS
+Reason : All batch validations passed
 
 [TEST STEP] Running: Real-World User Onboarding Validation
-[AI VALIDATION] PASS - Mock AI confirmed response satisfies the validation intent
-[AI VALIDATION] FAIL - Mock AI detected missing response data or required fields
-[AI VALIDATION] PASS - Missing email edge case rejected
-PASS - CRM onboarding score: 90/100
+[AI VALIDATION]
+Status : PASS
+Reason : Mock AI confirmed response satisfies the validation intent
+[AI VALIDATION]
+Status : FAIL
+Reason : Mock AI detected missing response data or required fields
+[AI VALIDATION]
+Status : PASS
+Reason : Missing email edge case rejected
+[TEST RESULT]
+Status : PASS
+Score  : 90/100
+Reason : Mock AI confirmed response satisfies the validation intent
 
 TEST REPORT
 Total Tests: 5
