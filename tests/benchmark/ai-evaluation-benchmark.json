@@ -1,0 +1,47 @@
+[
+  {
+    "id": "BENCH-INTERPRET-001",
+    "type": "interpret",
+    "description": "Valid structured AI response should pass above threshold",
+    "input": {
+      "isValid": true,
+      "validationScore": 91,
+      "reason": "Response satisfies workflow intent"
+    },
+    "options": { "minScore": 80 },
+    "expected": { "status": "PASS", "isValid": true }
+  },
+  {
+    "id": "BENCH-INTERPRET-002",
+    "type": "interpret",
+    "description": "Below-threshold score should fail",
+    "input": {
+      "isValid": true,
+      "validationScore": 60,
+      "issues": ["Low confidence"]
+    },
+    "options": { "minScore": 80 },
+    "expected": { "status": "FAIL", "isValid": false }
+  },
+  {
+    "id": "BENCH-SCHEMA-001",
+    "type": "schema",
+    "description": "Missing required field should fail schema decision",
+    "input": {
+      "response": { "id": 1, "name": "A" },
+      "requiredFields": ["id", "name", "email"]
+    },
+    "expected": { "status": "FAIL", "isValid": false }
+  },
+  {
+    "id": "BENCH-MOCK-001",
+    "type": "mock",
+    "description": "Mock decision should pass with required fields",
+    "input": {
+      "response": { "id": 1, "company": { "name": "Acme" } },
+      "expectedBehavior": "Must include company details",
+      "options": { "minScore": 80, "requiredFields": ["id", "company.name"] }
+    },
+    "expected": { "status": "PASS", "isValid": true }
+  }
+]

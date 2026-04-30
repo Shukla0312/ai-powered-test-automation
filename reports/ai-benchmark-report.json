@@ -1,0 +1,70 @@
+{
+  "generatedAt": "2026-04-30T11:48:11.144Z",
+  "total": 4,
+  "passed": 4,
+  "failed": 0,
+  "passRate": 1,
+  "minimumPassRate": 1,
+  "results": [
+    {
+      "id": "BENCH-INTERPRET-001",
+      "description": "Valid structured AI response should pass above threshold",
+      "expected": {
+        "status": "PASS",
+        "isValid": true
+      },
+      "actual": {
+        "status": "PASS",
+        "isValid": true,
+        "validationScore": 91,
+        "reason": "Response satisfies workflow intent"
+      },
+      "passed": true
+    },
+    {
+      "id": "BENCH-INTERPRET-002",
+      "description": "Below-threshold score should fail",
+      "expected": {
+        "status": "FAIL",
+        "isValid": false
+      },
+      "actual": {
+        "status": "FAIL",
+        "isValid": false,
+        "validationScore": 60,
+        "reason": "Low confidence"
+      },
+      "passed": true
+    },
+    {
+      "id": "BENCH-SCHEMA-001",
+      "description": "Missing required field should fail schema decision",
+      "expected": {
+        "status": "FAIL",
+        "isValid": false
+      },
+      "actual": {
+        "status": "FAIL",
+        "isValid": false,
+        "validationScore": 0,
+        "reason": "Missing required field(s): email"
+      },
+      "passed": true
+    },
+    {
+      "id": "BENCH-MOCK-001",
+      "description": "Mock decision should pass with required fields",
+      "expected": {
+        "status": "PASS",
+        "isValid": true
+      },
+      "actual": {
+        "status": "PASS",
+        "isValid": true,
+        "validationScore": 90,
+        "reason": "Mock AI confirmed response satisfies the validation intent"
+      },
+      "passed": true
+    }
+  ]
+}

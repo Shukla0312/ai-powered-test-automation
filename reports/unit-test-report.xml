@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="unit-tests" tests="13" failures="0" errors="0" skipped="0" time="0">
-  <testcase name="interpretAIResponse returns PASS for valid structured AI output" classname="unit-tests"/>
-  <testcase name="interpretAIResponse returns FAIL when score is below threshold" classname="unit-tests"/>
-  <testcase name="createSchemaDecision rejects missing required fields" classname="unit-tests"/>
-  <testcase name="createMockDecision supports nested required field paths" classname="unit-tests"/>
-  <testcase name="APIService retries retryable errors and succeeds" classname="unit-tests"/>
-  <testcase name="APIService does not retry non-retryable 4xx errors" classname="unit-tests"/>
-  <testcase name="APIService logs expected negative responses as expected failures" classname="unit-tests"/>
-  <testcase name="APIService throws after retry exhaustion on retryable errors" classname="unit-tests"/>
-  <testcase name="APIService retries timeout errors and surfaces timeout metadata" classname="unit-tests"/>
-  <testcase name="parseJSONFromText parses plain JSON payload" classname="unit-tests"/>
-  <testcase name="parseJSONFromText parses markdown fenced JSON" classname="unit-tests"/>
-  <testcase name="parseJSONFromText extracts JSON wrapped with explanation text" classname="unit-tests"/>
-  <testcase name="parseJSONFromText throws on invalid payload without JSON object" classname="unit-tests"/>
+<testsuite name="unit-tests" tests="13" failures="0" errors="0" skipped="0">
+  <testcase classname="unit-tests" name="interpretAIResponse returns PASS for valid structured AI output" time="0.001"/>
+  <testcase classname="unit-tests" name="interpretAIResponse returns FAIL when score is below threshold" time="0.000"/>
+  <testcase classname="unit-tests" name="createSchemaDecision rejects missing required fields" time="0.000"/>
+  <testcase classname="unit-tests" name="createMockDecision supports nested required field paths" time="0.000"/>
+  <testcase classname="unit-tests" name="APIService retries retryable errors and succeeds" time="0.003"/>
+  <testcase classname="unit-tests" name="APIService does not retry non-retryable 4xx errors" time="0.000"/>
+  <testcase classname="unit-tests" name="APIService logs expected negative responses as expected failures" time="0.000"/>
+  <testcase classname="unit-tests" name="APIService throws after retry exhaustion on retryable errors" time="0.000"/>
+  <testcase classname="unit-tests" name="APIService retries timeout errors and surfaces timeout metadata" time="0.000"/>
+  <testcase classname="unit-tests" name="parseJSONFromText parses plain JSON payload" time="0.001"/>
+  <testcase classname="unit-tests" name="parseJSONFromText parses markdown fenced JSON" time="0.000"/>
+  <testcase classname="unit-tests" name="parseJSONFromText extracts JSON wrapped with explanation text" time="0.000"/>
+  <testcase classname="unit-tests" name="parseJSONFromText throws on invalid payload without JSON object" time="0.000"/>
 </testsuite>

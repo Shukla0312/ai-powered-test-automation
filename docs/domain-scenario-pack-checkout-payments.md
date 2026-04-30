@@ -13,12 +13,20 @@ Checkout/payments flows are high-impact and failure-sensitive. This pack demonst
 | `PAY-CRIT-001` | Critical | Authorized payment must create settled order | Must pass in PR, nightly, and release runs |
 | `PAY-HIGH-002` | High | Insufficient funds must not place order | Must pass in nightly and release runs |
 | `PAY-MED-003` | Medium | Idempotent retry keeps single order identity | Required for nightly regression and release readiness |
+| `PAY-CRIT-004` | Critical | Idempotency abuse must be rejected | Must pass in PR, nightly, and release runs |
+| `PAY-HIGH-005` | High | Currency mismatch must block settlement | Must pass in nightly and release runs |
+| `PAY-CRIT-006` | Critical | Unauthorized tenant access must be denied | Must pass in PR, nightly, and release runs |
+| `PAY-HIGH-007` | High | Replay attempt must be blocked | Must pass in nightly and release runs |
 
 ## Explicit Business Invariants
 
 - Captured payment amount must equal order total.
 - Failed authorization must keep order in `payment_failed` state.
 - Idempotent retry must reuse prior order identity (no duplicate order creation).
+- Idempotency abuse with changed payload must be rejected.
+- Currency mismatch between payment and order must fail checkout.
+- Unauthorized tenant access must be denied.
+- Replay attempts must emit explicit anti-replay signal and block order progression.
 
 ## Execution
 

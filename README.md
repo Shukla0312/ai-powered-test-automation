@@ -118,6 +118,7 @@ Integration scenario pack under `tests/integration/` validates realistic API con
 - Partial failure recovery (`503` followed by retry success)
 
 Domain-focused pack for checkout/payments with explicit business invariants and risk tiers is documented in `docs/domain-scenario-pack-checkout-payments.md` and implemented in `tests/integration/checkoutPaymentsScenario.test.js`.
+The pack now includes security invariants for idempotency abuse, currency mismatch, unauthorized tenant access, and replay-attempt blocking.
 
 ## ⚖️ Traditional vs AI Testing
 
@@ -151,6 +152,9 @@ npm test
 npm run test:mock
 npm run test:unit
 npm run test:integration
+npm run test:benchmark
+npm run validate:governance
+npm run orchestrate:local
 ```
 
 ## 📈 Scalability
@@ -161,6 +165,7 @@ npm run test:integration
 - CI workflow (`.github/workflows/test.yml`) enables repeatable PR checks.
 - Reliability behavior is unit-tested for decision logic and HTTP retry/error paths.
 - CI publishes machine-ingestible artifacts in JSON and JUnit XML (`reports/*-report.json`, `reports/*-report.xml`) for triage and CI integration.
+- Unit/integration reports use first-class structured test events (Node test runner API) to generate XML.
 
 ## ⚠️ Limitations & Mitigation
 
@@ -192,6 +197,7 @@ This project demonstrates practical AI testing: deterministic controls first, AI
 
 AI validation guardrails and acceptance thresholds are documented in `docs/ai-safety-evaluation-policy.md`.
 Suite scaling strategy for 1000+ tests (sharding, queueing, tenant isolation, governance) is documented in `docs/suite-orchestration-strategy.md`.
+Scenario governance metadata requirements are validated from `tests/integration/scenario-manifest.json`.
 
 ## 🧠 Author Note
 

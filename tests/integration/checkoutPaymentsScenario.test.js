@@ -8,6 +8,8 @@ import { createSchemaDecision } from '../../utils/aiDecisionEngine.js';
 const checkoutPaymentsScenarioPack = [
   {
     id: 'PAY-CRIT-001',
+    domain: 'checkout-payments',
+    policyRef: 'docs/ai-safety-evaluation-policy.md',
     risk: 'critical',
     name: 'Authorized payment must create settled order',
     endpoint: '/v1/checkout/authorize-and-capture',
@@ -20,6 +22,8 @@ const checkoutPaymentsScenarioPack = [
   },
   {
     id: 'PAY-HIGH-002',
+    domain: 'checkout-payments',
+    policyRef: 'docs/ai-safety-evaluation-policy.md',
     risk: 'high',
     name: 'Insufficient funds must not place order',
     endpoint: '/v1/checkout/insufficient-funds',
@@ -30,6 +34,8 @@ const checkoutPaymentsScenarioPack = [
   },
   {
     id: 'PAY-MED-003',
+    domain: 'checkout-payments',
+    policyRef: 'docs/ai-safety-evaluation-policy.md',
     risk: 'medium',
     name: 'Idempotent retry keeps single order identity',
     endpoint: '/v1/checkout/idempotent-retry',
@@ -37,6 +43,59 @@ const checkoutPaymentsScenarioPack = [
     required: ['order.id', 'order.state', 'idempotency.reused'],
     invariant: (response) =>
       response.order.state === 'placed' && response.idempotency.reused === true,
+  },
+  {
+    id: 'PAY-CRIT-004',
+    domain: 'checkout-payments-security',
+    policyRef: 'docs/ai-safety-evaluation-policy.md',
+    risk: 'critical',
+    name: 'Idempotency abuse must be rejected',
+    endpoint: '/v1/checkout/idempotency-abuse',
+    expectedStatus: 409,
+    required: ['error.code', 'order.state', 'idempotency.reused'],
+    invariant: (response) =>
+      response.error.code === 'IDEMPOTENCY_KEY_REUSE_WITH_DIFFERENT_PAYLOAD' &&
+      response.order.state === 'rejected' &&
+      response.idempotency.reused === false,
+  },
+  {
+    id: 'PAY-HIGH-005',
+    domain: 'checkout-payments-security',
+    policyRef: 'docs/ai-safety-evaluation-policy.md',
+    risk: 'high',
+    name: 'Currency mismatch must block settlement',
+    endpoint: '/v1/checkout/currency-mismatch',
+    expectedStatus: 422,
+    required: ['error.code', 'payment.currency', 'order.currency'],
+    invariant: (response) =>
+      response.error.code === 'CURRENCY_MISMATCH' &&
+      response.payment.currency !== response.order.currency,
+  },
+  {
+    id: 'PAY-CRIT-006',
+    domain: 'checkout-payments-security',
+    policyRef: 'docs/ai-safety-evaluation-policy.md',
+    risk: 'critical',
+    name: 'Unauthorized tenant access must be denied',
+    endpoint: '/v1/checkout/unauthorized-tenant',
+    expectedStatus: 403,
+    required: ['error.code', 'tenant.allowed', 'tenant.requested'],
+    invariant: (response) =>
+      response.error.code === 'TENANT_ACCESS_DENIED' && response.tenant.allowed === false,
+  },
+  {
+    id: 'PAY-HIGH-007',
+    domain: 'checkout-payments-security',
+    policyRef: 'docs/ai-safety-evaluation-policy.md',
+    risk: 'high',
+    name: 'Replay attempt must be blocked with anti-replay signal',
+    endpoint: '/v1/checkout/replay-attempt',
+    expectedStatus: 409,
+    required: ['error.code', 'security.replayDetected', 'order.state'],
+    invariant: (response) =>
+      response.error.code === 'REPLAY_DETECTED' &&
+      response.security.replayDetected === true &&
+      response.order.state === 'blocked',
   },
 ];
 
@@ -77,6 +136,53 @@ function startCheckoutPaymentsApi() {
         JSON.stringify({
           order: { id: 'ord_901', state: 'placed' },
           idempotency: { reused: true, key: 'checkout-abc-123' },
+        })
+      );
+      return;
+    }
+
+    if (req.url === '/v1/checkout/idempotency-abuse') {
+      res.writeHead(409, { 'Content-Type': 'application/json' });
+      res.end(
+        JSON.stringify({
+          error: { code: 'IDEMPOTENCY_KEY_REUSE_WITH_DIFFERENT_PAYLOAD' },
+          order: { state: 'rejected' },
+          idempotency: { reused: false, key: 'checkout-abc-123' },
+        })
+      );
+      return;
+    }
+
+    if (req.url === '/v1/checkout/currency-mismatch') {
+      res.writeHead(422, { 'Content-Type': 'application/json' });
+      res.end(
+        JSON.stringify({
+          error: { code: 'CURRENCY_MISMATCH' },
+          payment: { currency: 'USD' },
+          order: { currency: 'EUR' },
+        })
+      );
+      return;
+    }
+
+    if (req.url === '/v1/checkout/unauthorized-tenant') {
+      res.writeHead(403, { 'Content-Type': 'application/json' });
+      res.end(
+        JSON.stringify({
+          error: { code: 'TENANT_ACCESS_DENIED' },
+          tenant: { requested: 'tenant-b', allowed: false },
+        })
+      );
+      return;
+    }
+
+    if (req.url === '/v1/checkout/replay-attempt') {
+      res.writeHead(409, { 'Content-Type': 'application/json' });
+      res.end(
+        JSON.stringify({
+          error: { code: 'REPLAY_DETECTED' },
+          security: { replayDetected: true },
+          order: { state: 'blocked' },
         })
       );
       return;

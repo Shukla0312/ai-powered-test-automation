@@ -1,9 +1,77 @@
 {
-  "command": "node --test tests/unit/*.test.js",
-  "startedAt": "2026-04-30T11:38:05.686Z",
-  "finishedAt": "2026-04-30T11:38:05.860Z",
-  "exitCode": 0,
+  "command": "node:test run tests/unit",
+  "suiteName": "unit-tests",
+  "startedAt": "2026-04-30T11:48:12.564Z",
+  "finishedAt": "2026-04-30T11:48:12.743Z",
+  "total": 13,
+  "passed": 13,
+  "failed": 0,
   "success": true,
-  "stdout": "TAP version 13\n# Subtest: interpretAIResponse returns PASS for valid structured AI output\nok 1 - interpretAIResponse returns PASS for valid structured AI output\n  ---\n  duration_ms: 0.789042\n  ...\n# Subtest: interpretAIResponse returns FAIL when score is below threshold\nok 2 - interpretAIResponse returns FAIL when score is below threshold\n  ---\n  duration_ms: 0.091291\n  ...\n# Subtest: createSchemaDecision rejects missing required fields\nok 3 - createSchemaDecision rejects missing required fields\n  ---\n  duration_ms: 0.416583\n  ...\n# Subtest: createMockDecision supports nested required field paths\nok 4 - createMockDecision supports nested required field paths\n  ---\n  duration_ms: 0.11875\n  ...\n# ✗ GET /health [429] 0ms - Too Many Requests\n# Retrying GET /health in 1000ms (attempt 1/2)\n# ✗ GET /health [429] 0ms - Too Many Requests\n# Retrying GET /health in 2000ms (attempt 2/2)\n# ✓ GET /health [200] 0ms\n# ✗ GET /users [400] 0ms - Bad Request\n# ✓ GET /unknown [404] 0ms - expected negative response\n# ✗ GET /degraded [503] 0ms - Service Unavailable\n# Retrying GET /degraded in 1000ms (attempt 1/2)\n# ✗ GET /degraded [503] 0ms - Service Unavailable\n# Retrying GET /degraded in 2000ms (attempt 2/2)\n# ✗ GET /degraded [503] 0ms - Service Unavailable\n# ✗ GET /slow-endpoint [timeout] 0ms - timeout exceeded\n# Retrying GET /slow-endpoint in 1000ms (attempt 1/1)\n# ✗ GET /slow-endpoint [timeout] 0ms - timeout exceeded\n# Subtest: APIService retries retryable errors and succeeds\nok 5 - APIService retries retryable errors and succeeds\n  ---\n  duration_ms: 2.617417\n  ...\n# Subtest: APIService does not retry non-retryable 4xx errors\nok 6 - APIService does not retry non-retryable 4xx errors\n  ---\n  duration_ms: 0.762875\n  ...\n# Subtest: APIService logs expected negative responses as expected failures\nok 7 - APIService logs expected negative responses as expected failures\n  ---\n  duration_ms: 0.227708\n  ...\n# Subtest: APIService throws after retry exhaustion on retryable errors\nok 8 - APIService throws after retry exhaustion on retryable errors\n  ---\n  duration_ms: 0.957166\n  ...\n# Subtest: APIService retries timeout errors and surfaces timeout metadata\nok 9 - APIService retries timeout errors and surfaces timeout metadata\n  ---\n  duration_ms: 0.435667\n  ...\n# Subtest: parseJSONFromText parses plain JSON payload\nok 10 - parseJSONFromText parses plain JSON payload\n  ---\n  duration_ms: 0.855291\n  ...\n# Subtest: parseJSONFromText parses markdown fenced JSON\nok 11 - parseJSONFromText parses markdown fenced JSON\n  ---\n  duration_ms: 0.437084\n  ...\n# Subtest: parseJSONFromText extracts JSON wrapped with explanation text\nok 12 - parseJSONFromText extracts JSON wrapped with explanation text\n  ---\n  duration_ms: 0.122541\n  ...\n# Subtest: parseJSONFromText throws on invalid payload without JSON object\nok 13 - parseJSONFromText throws on invalid payload without JSON object\n  ---\n  duration_ms: 0.371042\n  ...\n1..13\n# tests 13\n# suites 0\n# pass 13\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 134.159833\n",
-  "stderr": ""
+  "testCases": [
+    {
+      "name": "interpretAIResponse returns PASS for valid structured AI output",
+      "status": "passed",
+      "durationMs": 0.662417
+    },
+    {
+      "name": "interpretAIResponse returns FAIL when score is below threshold",
+      "status": "passed",
+      "durationMs": 0.072167
+    },
+    {
+      "name": "createSchemaDecision rejects missing required fields",
+      "status": "passed",
+      "durationMs": 0.36875
+    },
+    {
+      "name": "createMockDecision supports nested required field paths",
+      "status": "passed",
+      "durationMs": 0.099541
+    },
+    {
+      "name": "APIService retries retryable errors and succeeds",
+      "status": "passed",
+      "durationMs": 2.627625
+    },
+    {
+      "name": "APIService does not retry non-retryable 4xx errors",
+      "status": "passed",
+      "durationMs": 0.394667
+    },
+    {
+      "name": "APIService logs expected negative responses as expected failures",
+      "status": "passed",
+      "durationMs": 0.188125
+    },
+    {
+      "name": "APIService throws after retry exhaustion on retryable errors",
+      "status": "passed",
+      "durationMs": 0.397541
+    },
+    {
+      "name": "APIService retries timeout errors and surfaces timeout metadata",
+      "status": "passed",
+      "durationMs": 0.290625
+    },
+    {
+      "name": "parseJSONFromText parses plain JSON payload",
+      "status": "passed",
+      "durationMs": 0.794834
+    },
+    {
+      "name": "parseJSONFromText parses markdown fenced JSON",
+      "status": "passed",
+      "durationMs": 0.370542
+    },
+    {
+      "name": "parseJSONFromText extracts JSON wrapped with explanation text",
+      "status": "passed",
+      "durationMs": 0.109875
+    },
+    {
+      "name": "parseJSONFromText throws on invalid payload without JSON object",
+      "status": "passed",
+      "durationMs": 0.192417
+    }
+  ]
 }

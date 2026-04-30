@@ -44,23 +44,26 @@ jobs:
       - name: Run unit tests
         run: npm run test:unit
 
-      - name: Run unit tests with JSON reporter
-        run: npm run test:unit:json
+      - name: Validate governance metadata
+        run: npm run validate:governance
 
       - name: Run integration scenario pack
         run: npm run test:integration
 
-      - name: Run integration scenario pack with JSON reporter
-        run: npm run test:integration:json
+      - name: Run AI benchmark pack
+        run: npm run test:benchmark
 
       - name: Run AI validation tests
         run: npm test
 
       - name: Generate machine-readable test artifacts
         run: |
-          npm run test:unit:junit
-          npm run test:integration:junit
+          npm run test:unit:reports
+          npm run test:integration:reports
           npm run test:mock:junit
+
+      - name: Run orchestration dry-run profile
+        run: npm run orchestrate:local
 
       - name: Upload test artifacts
         uses: actions/upload-artifact@v4
