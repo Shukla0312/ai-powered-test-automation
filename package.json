@@ -1,0 +1,33 @@
+{
+  "name": "ai-powered-test-automation",
+  "version": "1.0.0",
+  "description": "Enterprise-grade AI-powered test automation framework using Node.js and OpenAI",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:watch": "npm test -- --watch",
+    "test:coverage": "npm test -- --coverage",
+    "lint": "eslint .",
+    "dev": "node tests/ai-validation.test.js"
+  },
+  "keywords": [
+    "ai",
+    "automation",
+    "testing",
+    "sdet",
+    "openai",
+    "llm"
+  ],
+  "author": "SDET",
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.24.3",
+    "axios": "^1.7.0",
+    "dotenv": "^16.4.5",
+    "openai": "^4.52.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
